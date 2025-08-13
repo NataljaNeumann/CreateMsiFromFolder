@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="LicenseAgreementDialogLicenseAccepted">I accept the terms in the License Agreement</String>
+  <String Id="LicenseAgreementDialogDescription">Please read the following license agreement carefully before installing [ProductName].</String>
+  <String Id="InstallScopeDlgDescription">Choose who can use [ProductName] on this computer:</String>
+  <String Id="InstallScopePerMachine">Install for all users</String>
+  <String Id="InstallScopePerUser">Install just for me</String>
+  <String Id="InstallFolderLabel">Choose the folder where you want to install [ProductName]:</String>
+  <String Id="BrowseFolderButtonText">Browse...</String>
+  <String Id="NextButton">Next</String>
+  <String Id="CancelButton">Cancel</String>
+</WixLocalization>

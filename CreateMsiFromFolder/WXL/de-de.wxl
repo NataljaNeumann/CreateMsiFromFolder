@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<WixLocalization Culture="de-de" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="LicenseAgreementDialogLicenseAccepted">Ich akzeptiere die Bedingungen der Lizenzvereinbarung</String>
+  <String Id="LicenseAgreementDialogDescription">Bitte lesen Sie die folgende Lizenzvereinbarung sorgfältig durch, bevor Sie [ProductName] installieren.</String>
+  <String Id="InstallScopeDlgDescription">Wählen Sie, wer [ProductName] auf diesem Computer verwenden kann:</String>
+  <String Id="InstallScopePerMachine">Für alle Benutzer installieren</String>
+  <String Id="InstallScopePerUser">Nur für mich installieren</String>
+  <String Id="InstallFolderLabel">Wählen Sie den Ordner, in dem Sie [ProductName] installieren möchten:</String>
+  <String Id="BrowseFolderButtonText">Durchsuchen...</String>
+  <String Id="NextButton">Weiter</String>
+  <String Id="CancelButton">Abbrechen</String>
+</WixLocalization>
