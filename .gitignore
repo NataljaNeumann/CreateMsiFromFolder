@@ -2,7 +2,7 @@ CreateMsiFromFolder/obj/**
 CreateMsiFromFolder/bin/Release/**
 CreateMsiFromFolder/bin/Debug/**
 CreateMsiFromFolder/bin/*.zip
-**\.vs\**
-Backup\**
+**/.vs/**
+Backup/**
 *.user
 *.suo
