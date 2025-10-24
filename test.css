@@ -1,0 +1,1935 @@
+/* FREE FONTS FREE FONTS FREE FONTS FREE FONTS FREE FONTS */
+
+/* =================== SERIF FONTS ======================== */
+
+/* Download: https://fonts.google.com/specimen/Merriweather */
+@font-face {
+	font-family: 'Merriweather';
+	src: url('fonts/Merriweather-Regular.woff2') format('woff2'), url('fonts/Merriweather-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Playfair+Display */
+@font-face {
+	font-family: 'Playfair Display';
+	src: url('fonts/PlayfairDisplay-Regular.woff2') format('woff2'), url('fonts/PlayfairDisplay-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Lora */
+@font-face {
+	font-family: 'Lora';
+	src: url('fonts/Lora-Regular.woff2') format('woff2'), url('fonts/Lora-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Crimson+Pro */
+@font-face {
+	font-family: 'Crimson Pro';
+	src: url('fonts/CrimsonPro-Regular.woff2') format('woff2'), url('fonts/CrimsonPro-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Cormorant+Garamond */
+@font-face {
+	font-family: 'Cormorant Garamond';
+	src: url('fonts/CormorantGaramond-Regular.woff2') format('woff2'), url('fonts/CormorantGaramond-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* ======================= SANS SERIF ======================= */
+
+
+/* Download: https://fonts.google.com/specimen/Roboto */
+@font-face {
+	font-family: 'Roboto';
+	src: url('fonts/Roboto-Regular.woff2') format('woff2'), url('fonts/Roboto-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Open+Sans */
+@font-face {
+	font-family: 'Open Sans';
+	src: url('fonts/OpenSans-Regular.woff2') format('woff2'), url('fonts/OpenSans-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Inter */
+@font-face {
+	font-family: 'Inter';
+	src: url('fonts/Inter-Regular.woff2') format('woff2'), url('fonts/Inter-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+
+/* Download: https://fonts.google.com/specimen/Poppins */
+@font-face {
+	font-family: 'Poppins';
+	src: url('fonts/Poppins-Regular.woff2') format('woff2'), url('fonts/Poppins-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Work+Sans */
+@font-face {
+	font-family: 'Work Sans';
+	src: url('fonts/WorkSans-Regular.woff2') format('woff2'), url('fonts/WorkSans-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* =============== HANDWRITING AND DECO =================== */
+
+
+/* Download: https://fonts.google.com/specimen/Pacifico */
+@font-face {
+	font-family: 'Pacifico';
+	src: url('fonts/Pacifico-Regular.woff2') format('woff2'), url('fonts/Pacifico-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Dancing+Script */
+@font-face {
+	font-family: 'Dancing Script';
+	src: url('fonts/DancingScript-Regular.woff2') format('woff2'), url('fonts/DancingScript-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Amatic+SC */
+@font-face {
+	font-family: 'Amatic SC';
+	src: url('fonts/AmaticSC-Regular.woff2') format('woff2'), url('fonts/AmaticSC-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Shadows+Into+Light */
+@font-face {
+	font-family: 'Shadows Into Light';
+	src: url('fonts/ShadowsIntoLight-Regular.woff2') format('woff2'), url('fonts/ShadowsIntoLight-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Satisfy */
+@font-face {
+	font-family: 'Satisfy';
+	src: url('fonts/Satisfy-Regular.woff2') format('woff2'), url('fonts/Satisfy-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+/* =============== MONOTYPE FONTS ===================== */
+
+/* Download: https://fonts.google.com/specimen/Fira+Code */
+@font-face {
+	font-family: 'Fira Code';
+	src: url('fonts/FiraCode-Regular.woff2') format('woff2'), url('fonts/FiraCode-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+
+/* Download: https://fonts.google.com/specimen/Source+Code+Pro */
+@font-face {
+	font-family: 'Source Code Pro';
+	src: url('fonts/SourceCodePro-Regular.woff2') format('woff2'), url('fonts/SourceCodePro-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/JetBrains+Mono */
+@font-face {
+	font-family: 'JetBrains Mono';
+	src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2'), url('fonts/JetBrainsMono-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+/* =================== SPECIAL FONTS ========================= */
+
+/* Download: https://fonts.google.com/specimen/Bebas+Neue */
+@font-face {
+	font-family: 'Bebas Neue';
+	src: url('fonts/BebasNeue-Regular.woff2') format('woff2'), url('fonts/BebasNeue-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+/* Download: https://fonts.google.com/specimen/Oswald */
+@font-face {
+	font-family: 'Oswald';
+	src: url('fonts/Oswald-Regular.woff2') format('woff2'), url('fonts/Oswald-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+
+
+/* ================================
+   Fonts and sizes definition
+   ================================ */
+
+:root {
+	/* common font definitions. fonts need to be downloaded and font-faces defined */
+	--font-merriweather: 'Merriweather', Georgia, serif;
+	--font-playfair: 'Playfair Display', 'Times New Roman', serif;
+	--font-lora: 'Lora', Cambria, serif;
+	--font-crimson: 'Crimson Pro', 'Palatino Linotype', serif;
+	--font-cormorant: 'Cormorant Garamond', Garamond, serif;
+	--font-roboto: 'Roboto', Arial, sans-serif;
+	--font-open-sans: 'Open Sans', Helvetica, sans-serif;
+	--font-inter: 'Inter', 'Segoe UI', sans-serif;
+	--font-poppins: 'Poppins', 'Trebuchet MS', sans-serif;
+	--font-work-sans: 'Work Sans', Verdana, sans-serif;
+	--font-pacifico: 'Pacifico', cursive, sans-serif;
+	--font-dancing-script: 'Dancing Script', cursive, sans-serif;
+	--font-amatic: 'Amatic SC', cursive, sans-serif;
+	--font-shadows: 'Shadows Into Light', cursive, sans-serif;
+	--font-satisfy: 'Satisfy', cursive, sans-serif;
+	--font-fira-code: 'Fira Code', 'Courier New', monospace;
+	--font-source-code: 'Source Code Pro', Consolas, monospace;
+	--font-jetbrains: 'JetBrains Mono', Menlo, monospace;
+	--font-bebas: 'Bebas Neue', Impact, sans-serif;
+	--font-oswald: 'Oswald', 'Franklin Gothic Medium', sans-serif;
+
+	/* Page specific fonts and sizes */
+	--font-primary: 'Segoe UI', 'Roboto', sans-serif;
+	--font-secondary: 'Georgia', serif;
+	--spacing-element: 1.875rem;
+	--padding-box: 1.5rem;
+	--width-desktop: 60rem;
+	--width-tablet: 40rem;
+	--width-mobile: 100%;
+	--width-box-grid: 29rem;
+	--width-half-column: 45%;
+	--width-half-column2: 50%;
+	--line-thin: 0.125rem;
+	--line-medium: 0.187rem;
+	--grid-box-width: 15rem;
+	--grid-box-padding: 1rem;
+	--grid-box-gap: 1rem;
+	--grid-box-radius: 0.5rem;
+	--rounded-radius: 0.5rem;
+}
+
+/* ================================
+   Standard: Helles Farbschema
+   ================================ */
+:root {
+	--color-bg-main: #f5f7fa;
+	--color-text-main: #2c3e50;
+	--color-marker-main: #2c3e50;
+
+	/* === Input-Farben im normalen Textbereich === */
+	--input-bg-default: #ffffff;
+	--input-text-default: #333333;
+	--input-border-default: #cccccc;
+	--input-focus-border-default: #666666;
+	--color-accent: #6c9a8b;
+	--color-accent-alt: #d8a3b3; /* blasses Rosa mit Grauanteil */
+
+	/* Farben für Header und Trenner in grauen Boxen */
+	--color-box-gray-bg: #e0e6ed;
+	--color-box-gray-text: #2c3e50;
+	--color-box-gray-marker: #2c3e50;
+	--color-box-gray-header: #34495e;
+	--color-box-gray-divider: #95a5a6;
+
+	/* === Input-Farben in grauen Boxen === */
+	--input-bg-gray: #f9f9f9;
+	--input-text-gray: #2c3e50;
+	--input-marker-gray: #2c3e50;
+	--input-border-gray: #bdc3c7;
+	--input-focus-border-gray: #7f8c8d;
+
+	/* Farben für Header und Trenner in farbigen Boxen */
+	--color-box-accent-bg: #dbece6;
+	--color-box-accent-text: #1c3d2e;
+	--color-box-accent-marker: #1c3d2e;
+	--color-box-accent-header: #145c4c;
+	--color-box-accent-divider: #8fb9b3;
+
+	/* === Input-Farben in farbigen Boxen === */
+	--input-bg-accent: #e6f2f0;
+	--input-text-accent: #145c4c;
+	--input-border-accent: #8fb9b3;
+	--input-focus-border-accent: #2c8c7c;
+
+	/* Farben für Header und Trenner in alternativen farbigen Boxen */
+	--color-box-accent-alt-header: #8c2c4c; /* kräftiges Altrosa */
+	--color-box-accent-alt-divider: #d8a3b3; /* blasses Rosa mit Grauanteil */
+	--color-box-accent-alt-bg: #f5e3e8; /* zartes Rosé */
+	--color-box-accent-alt-text: #4c1f2c; /* dunkles Weinrot */
+	--color-box-accent-alt-marker: #4c1f2c; /* dunkles Weinrot */
+
+	/* === Input-Farben in alternativen farbigen Boxen === */
+	--input-bg-accent-alt: #f9eef1; /* sehr helles Rosa */
+	--input-text-accent-alt: #8c2c4c; /* passend zum Header */
+	--input-marker-accent-alt: #8c2c4c; /* passend zum Header */
+	--input-border-accent-alt: #d8a3b3; /* weich und ruhig */
+	--input-focus-border-accent-alt: #b34c6d; /* etwas lebendiger für Fokus */
+
+	/* === Menüfarben === */
+	--menu-bg: #2c3e50;
+	--menu-text: #ecf0f1;
+	--menu-hover-bg: #34495e;
+	--menu-hover-text: #ffffff;
+	--menu-active-bg: #1abc9c;
+	--menu-active-text: #ffffff;
+	--menu-border: #1f2d3a;
+
+	/* Untermenü-Farben */
+	--submenu-bg: #3b4a59;
+	--submenu-text: #ecf0f1;
+	--submenu-hover-bg: #4b5a69;
+	--submenu-hover-text: #ffffff;
+	--submenu-border: #2c3e50;
+
+	/* grid-boxen */
+	--grid-box-bg: var(--color-box-gray-bg);
+	--grid-box-border: var(--color-box-gray-bg);
+	--grid-box-text: var(--color-box-accent-text);
+	--grid-box-marker: var(--color-box-accent-text);
+	--grid-box-header: var(--color-box-gray-header);
+	--grid-box-accent-bg: var(--color-box-accent-bg);
+	--grid-box-accent-border: var(--color-box-accent-bg);
+	--grid-box-accent-text: var(--color-box-accent-text);
+	--grid-box-accent-marker: var(--color-box-accent-text);
+	--grid-box-accent-header: var(--color-box-accent-header);
+	--grid-box-accent-alt-bg: var(--color-box-accent-alt-bg);
+	--grid-box-accent-alt-border: var(--color-box-accent-alt-bg);
+	--grid-box-accent-alt-text: var(--color-box-accent-alt-text);
+	--grid-box-accent-alt-marker: var(--color-box-accent-alt-text);
+	--grid-box-accent-alt-header: var(--color-box-accent-alt-header);
+	--grid-box-accent-alt-divider: var(--color-box-accent-alt-divider);
+	
+	/* link-farben */
+	--link-color: var(--color-accent);
+	--color-box-gray-link-color: var(--color-accent);
+	--color-box-accent-link-color: var(--color-accent);
+	--color-box-accent-alt-link-color: var(--color-accent-alt);		
+	
+}
+
+/* ================================
+   Dunkles Farbschema
+   ================================ */
+@media (prefers-color-scheme: Dark) {
+	:root {
+		--color-bg-main: #1e1e1e;
+		--color-text-main: #e0e0e0;
+		--color-marker-main: #e0e0e0;
+
+		/* Input-Farben im normalen Textbereich */
+		--input-bg-default: #2c3e50; /* dunkler Hintergrund */
+		--input-text-default: #ecf0f1; /* heller Text */
+		--input-marker-default: #ecf0f1; /* heller Text */
+		--input-border-default: #7f8c8d; /* dezente Umrandung */
+		--input-focus-border-default: #1abc9c; /* Fokusfarbe */
+
+		--color-accent: #8fb9b3;
+		--color-accent-alt: #b38fa3; /* blasses Altrosa */
+
+		/* Header und Trenner in grauen Boxen */
+		--color-box-gray-bg: #2c2c2c;
+		--color-box-gray-text: #dddddd;
+		--color-box-gray-marker: #dddddd;
+		--color-box-gray-header: #ecf0f1; /* heller Text */
+		--color-box-gray-divider: #7f8c8d; /* dezenter Trenner */
+
+		/* Input-Farben in grauen Boxen */
+		--input-bg-gray: #34495e;
+		--input-text-gray: #ecf0f1;
+		--input-border-gray: #95a5a6;
+		--input-focus-border-gray: #1abc9c;
+
+		/* Header und Trenner in farbigen Boxen */
+		--color-box-accent-bg: #145c4c;
+		--color-box-accent-text: #e6f2f0;
+		--color-box-accent-marker: #e6f2f0;
+		--color-box-accent-header: #e6f2f0; /* heller Akzenttext */
+		--color-box-accent-divider: #2c8c7c; /* kräftigerer Trenner */
+
+		/* Input-Farben in farbigen Boxen */
+		--input-bg-accent: #145c4c;
+		--input-text-accent: #ffffff;
+		--input-border-accent: #2c8c7c;
+		--input-focus-border-accent: #1abc9c;
+
+		/* Header und Trenner in alternativen farbigen Boxen */
+		--color-box-accent-alt-bg: #4c1432; /* dunkles Weinrot */
+		--color-box-accent-alt-text: #f2e6ec; /* sehr helles Roséweiß */
+		--color-box-accent-alt-marker: #f2e6ec; /* sehr helles Roséweiß */
+		--color-box-accent-alt-header: #f2e6ec; /* heller Text auf dunklem Rot */
+		--color-box-accent-alt-divider: #8c2c5c; /* kräftigerer Trenner in Rosa-Rot */
+
+		/* Input-Farben in alternativen farbigen Boxen */
+		--input-bg-accent-alt: #4c1432;
+		--input-text-accent-alt: #ffffff;
+		--input-border-accent-alt: #8c2c5c;
+		--input-focus-border-accent-alt: #c94c7f;
+
+		/* Menüfarben */
+		--menu-bg: #1f2d3a;
+		--menu-text: #ecf0f1;
+		--menu-hover-bg: #34495e;
+		--menu-hover-text: #ffffff;
+		--menu-active-bg: #16a085;
+		--menu-active-text: #ffffff;
+		--menu-border: #34495e;
+
+		/* Untermenü-Farben */
+		--submenu-bg: #2c3e50;
+		--submenu-text: #ecf0f1;
+		--submenu-hover-bg: #3b4a59;
+		--submenu-hover-text: #ffffff;
+		--submenu-border: #1f2d3a;
+
+		/* grid-boxen */
+		--grid-box-bg: var(--color-box-gray-bg);
+		--grid-box-border: var(--color-box-gray-bg);
+		--grid-box-text: var(--color-box-accent-text);
+		--grid-box-marker: var(--color-box-accent-text);
+		--grid-box-header: var(--color-box-gray-header);
+		--grid-box-accent-bg: var(--color-box-accent-bg);
+		--grid-box-accent-border: var(--color-box-accent-bg);
+		--grid-box-accent-text: var(--color-box-accent-text);
+		--grid-box-accent-marker: var(--color-box-accent-text);
+		--grid-box-accent-header: var(--color-box-accent-header);
+		--grid-box-accent-alt-bg: var(--color-box-accent-alt-bg);
+		--grid-box-accent-alt-border: var(--color-box-accent-alt-bg);
+		--grid-box-accent-alt-text: var(--color-box-accent-alt-text);
+		--grid-box-accent-alt-marker: var(--color-box-accent-alt-text);
+		--grid-box-accent-alt-header: var(--color-box-accent-alt-header);
+		--grid-box-accent-alt-divider: var(--color-box-accent-alt-divider);
+		
+		/* link-farben */
+		--link-color: var(--color-accent);
+		--color-box-gray-link-color: var(--color-accent);
+		--color-box-accent-link-color: var(--color-accent);
+		--color-box-accent-alt-link-color: var(--color-accent-alt);		
+	}
+}
+
+/* ================================
+   Druckmedien: Immer helles Schema
+   ================================ */
+@media print {
+	:root {
+		--color-bg-main: #ffffff;
+		--color-text-main: #000000;
+		--color-box-gray-bg: #f0f0f0;
+		--color-box-gray-text: #333333;
+		--color-box-accent-bg: #e6f2f0;
+		--color-box-accent-text: #145c4c;
+		--color-box-accent-alt-bg: #f5eaf0; /* zartes Rosé, gut druckbar */
+		--color-box-accent-alt-text: #4c1f2e; /* dunkles Weinrot für Kontrast */
+
+		--color-accent: #6c9a8b;
+		--color-accent-alt: #d8a7b1;
+
+		/* Farben für Header und Trenner in grauen Boxen */
+		--color-box-gray-header: #34495e;
+		--color-box-gray-divider: #95a5a6;
+
+		/* Farben für Header und Trenner in farbigen Boxen */
+		--color-box-accent-header: #145c4c;
+		--color-box-accent-divider: #8fb9b3;
+		--color-box-accent-alt-header: #4c1f2e; /* kräftiger, aber nicht zu dominant */
+		--color-box-accent-alt-divider: #a36c8c; /* sanfter Rosa-Ton mit Tiefe */
+
+		/* === Input-Farben im normalen Textbereich === */
+		--input-bg-default: #ffffff;
+		--input-text-default: #333333;
+		--input-border-default: #cccccc;
+		--input-focus-border-default: #666666;
+
+		/* === Input-Farben in grauen Boxen === */
+		--input-bg-gray: #f9f9f9;
+		--input-text-gray: #2c3e50;
+		--input-border-gray: #bdc3c7;
+		--input-focus-border-gray: #7f8c8d;
+
+		/* === Input-Farben in farbigen Boxen === */
+		--input-bg-accent: #e6f2f0;
+		--input-text-accent: #145c4c;
+		--input-border-accent: #8fb9b3;
+		--input-focus-border-accent: #2c8c7c;
+		--input-bg-accent-alt: #f9f1f4; /* sehr helles Roséweiß */
+		--input-text-accent-alt: #4c1f2e;
+		--input-border-accent-alt: #a36c8c;
+		--input-focus-border-accent-alt: #c94c7f; /* lebendiger Fokusrahmen */
+
+		/* === Menüfarben === */
+		--menu-bg: #2c3e50;
+		--menu-text: #ecf0f1;
+		--menu-hover-bg: #34495e;
+		--menu-hover-text: #ffffff;
+		--menu-active-bg: #1abc9c;
+		--menu-active-text: #ffffff;
+		--menu-border: #1f2d3a;
+
+		/* Untermenü-Farben */
+		--submenu-bg: #3b4a59;
+		--submenu-text: #ecf0f1;
+		--submenu-hover-bg: #4b5a69;
+		--submenu-hover-text: #ffffff;
+		--submenu-border: #2c3e50;
+
+		/* grid-boxen */
+		--grid-box-bg: var(--color-box-gray-bg);
+		--grid-box-border: var(--color-box-gray-bg);
+		--grid-box-text: var(--color-box-accent-text);
+		--grid-box-header: var(--color-box-gray-header);
+		--grid-box-accent-bg: var(--color-box-accent-bg);
+		--grid-box-accent-border: var(--color-box-accent-bg);
+		--grid-box-accent-text: var(--color-box-accent-text);
+		--grid-box-accent-header: var(--color-box-accent-header);
+		--grid-box-accent-alt-bg: var(--color-box-accent-alt-bg);
+		--grid-box-accent-alt-border: var(--color-box-accent-alt-bg);
+		--grid-box-accent-alt-text: var(--color-box-accent-alt-text);
+		--grid-box-accent-alt-header: var(--color-box-accent-alt-header);
+		--grid-box-accent-alt-divider: var(--color-box-accent-alt-divider);
+		
+		/* link-farben */
+		--link-color: var(--color-accent);
+		--color-box-gray-link-color: var(--color-accent);
+		--color-box-accent-link-color: var(--color-accent);
+		--color-box-accent-alt-link-color: var(--color-accent-alt);		
+		
+	}
+}
+
+/* ===== Callout box ========= */
+.callout-box,
+.callout-box-alt {
+	width: var(--width-half-column2);
+	padding: var(--padding-box);
+	border-inline-start: var(--line-medium) solid var(--color-accent);
+	box-sizing: border-box;
+	margin-bottom: var(--spacing-element);
+	clear: both;
+}
+
+.callout-box-left,
+.callout-box-right,
+.callout-box-alt-left,
+.callout-box-alt-right {
+	width: var(--width-half-column2);
+	padding: var(--padding-box);
+	border-inline-start: var(--line-medium) solid var(--color-accent);
+	box-sizing: border-box;
+	margin-bottom: var(--spacing-element);
+}
+
+.callout-box-left,
+.callout-box-alt-left {
+	float: inline-start;
+	margin-inline-end: var(--spacing-element);
+	clear: inline-start;
+}
+
+.callout-box-right,
+.callout-box-alt-right {
+	float: inline-end;
+	margin-inline-start: var(--spacing-element);
+	clear: inline-end;
+}
+
+
+
+.callout-box-alt, 
+.callout-box-alt-left,
+.callout-box-alt-right {
+	border-inline-start: var(--line-medium) solid var(--color-accent-alt);
+}
+
+
+
+@media print {
+	.callout-box-left,
+	.callout-box-right {
+	/*
+		float: none;
+		width: 100%;
+		margin-top: 0;
+		margin-inline-end: 0;
+		margin-bottom: 1rem;
+		margin-inline-start: 0;
+	*/
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+}
+
+
+/* Clearfix */
+.clearfix::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* ============================= */
+/* BODY mit Außenbereich */
+/* ============================= */
+body {
+	font-family: var(--font-primary);
+	background-color: var(--color-box-gray-bg); /* grauer Außenbereich */
+	color: var(--color-text-main);
+	margin: 0;
+	padding: 0;
+
+}
+
+@media print {
+	body {
+		background-color: white;
+	}
+}
+
+
+li::marker {
+	color: var(--color-marker-main);
+}
+
+
+/* ============================= */
+/* Hauptbereich (zentriert) */
+/* ============================= */
+main {
+	background-color: var(--color-bg-main);
+	max-width: var(--width-desktop);
+	margin-left: auto;
+	margin-right: auto;
+	padding: var(--spacing-element);
+	min-height: 100vh; /* ← sorgt dafür, dass der Hauptbereich die volle Höhe hat */
+}
+
+@media print {
+	main {	
+		background-color: white;
+		max-width: 100%;
+	}
+}
+
+
+.main-image {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+	margin-bottom: var(--spacing-element);
+	border-radius: 0.5rem; /* optional: leicht abgerundete Ecken */
+}
+
+
+p {
+	margin-bottom: var(--spacing-element);
+}
+
+
+h1, h2, h3, h4 {
+	font-family: var(--font-secondary);
+	color: var(--color-accent);
+	margin-top: var(--spacing-element);
+	margin-bottom: 0.5em;
+}
+
+h1 {
+	font-size: 2.5rem;
+}
+
+h2 {
+	font-size: 2rem;
+}
+
+h3 {
+	font-size: 1.5rem;
+}
+
+h4 {
+	font-size: 1.25rem;
+}
+
+ul, ol {
+	margin-bottom: var(--spacing-element);
+	padding-inline-start: 2em;
+}
+
+li {
+	margin-bottom: 0.5em;
+}
+
+strong, b {
+	font-weight: bold;
+}
+
+i {
+	font-style: italic;
+}
+
+a {
+	color: var(--link-color);
+	text-decoration: none;
+}
+
+@media print {
+	a {
+		text-decoration: underline;
+	}
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+hr {
+	border: none;
+	border-top: var(--line-thin) solid var(--color-accent);
+	margin: var(--spacing-element) 0;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: var(--spacing-element);
+}
+
+th, td {
+	padding: 0.75em;
+	border: var(--line-thin) solid var(--color-box-gray-bg);
+	text-align: inline-start;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	margin-bottom: var(--spacing-element);
+}
+
+span {
+	display: inline;
+}
+
+blockquote {
+	margin: var(--spacing-element) 0;
+	padding-inline-start: 1em;
+	border-inline-start: var(--line-medium) solid var(--color-accent);
+	color: var(--color-text-main);
+	font-style: italic;
+}
+
+blockquote li::marker {
+	color: var(--color-marker-main);
+}
+
+
+
+
+/* Rounded borders */
+
+/* Nur obere Ecken abgerundet */
+.rounded-top {
+	border-top-left-radius: var(--rounded-radius);
+	border-top-right-radius: var(--rounded-radius);
+}
+
+/* Nur untere Ecken abgerundet */
+.rounded-bottom {
+	border-bottom-left-radius: var(--rounded-radius);
+	border-bottom-right-radius: var(--rounded-radius);
+}
+
+.rounded {
+	border-radius: var(--rounded-radius);
+}
+
+
+/* ================================
+   Trenner
+   ================================ */
+
+/* Dünner horizontaler Trenner */
+.hr-thin {
+	border: none;
+	border-top: var(--line-thin) solid var(--color-accent);
+	margin: var(--spacing-element) 0;
+}
+
+.hr-thin-alt {
+	border: none;
+	border-top: var(--line-thin) solid var(--color-accent-alt);
+	margin: var(--spacing-element) 0;
+}
+
+/* Mitteldicker horizontaler Trenner */
+.hr-medium {
+	border: none;
+	border-top: var(--line-medium) solid var(--color-accent);
+	margin: var(--spacing-element) 0;
+}
+
+.hr-medium-alt {
+	border: none;
+	border-top: var(--line-medium) solid var(--color-accent-alt);
+	margin: var(--spacing-element) 0;
+}
+
+/* 50%-Breite Trenner zentriert */
+.hr-half {
+	border: none;
+	border-top: var(--line-medium) solid var(--color-accent);
+	width: 50%;
+	margin: var(--spacing-element) auto;
+}
+
+.hr-half-alt {
+	border: none;
+	border-top: var(--line-medium) solid var(--color-accent-alt);
+	width: 50%;
+	margin: var(--spacing-element) auto;
+}
+
+
+
+/* ================================
+   Bilder
+   ================================ */
+
+/* Ganzspaltiges Bild */
+.img-full {
+	width: calc(100% + 2 * var(--spacing-element));
+	height: auto;
+	display: block;
+	margin-bottom: var(--spacing-element);
+	margin-left: calc(-1 * var(--spacing-element));
+	margin-right: calc(-1 * var(--spacing-element));
+	max-width: calc(100% + 2 * var(--spacing-element));
+}
+@media print {
+	.img-full {
+		margin-left: unset;
+		margin-right: unset;
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+/* Halbspaltiges Bild links */
+.img-left {
+	float: inline-start;
+	width: var(--width-half-column2);
+	margin-top: 0;
+	margin-inline-end: var(--spacing-element);
+	margin-bottom: var(--spacing-element);
+	margin-inline-start: 0;
+}
+
+/* Halbspaltiges Bild rechts */
+.img-right {
+	float: inline-end;
+	width: var(--width-half-column2);
+	margin-top: 0;
+	margin-inline-end: 0;
+	margin-bottom: var(--spacing-element);
+	Margin-inline-start: var(--spacing-element);
+
+
+}
+
+/* Hauptbild zentriert */
+.img-main {
+	display: block;
+	margin: 0 auto var(--spacing-element);
+	max-width: 100%;
+	height: auto;
+	border: var(--line-thin) solid var(--color-box-gray-bg);
+}
+
+
+@media print {
+	img {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+}
+
+/* ================================
+   Graue Boxen
+   ================================ */
+
+/* Ganzspaltige graue Box */
+.box-gray,
+.box-gray-full,
+.box-gray-left,
+.box-gray-right,
+.box-accent,
+.box-accent-full,
+.box-accent-left,
+.box-accent-right,
+.box-accent-alt,
+.box-accent-alt-full,
+.box-accent-alt-left,
+.box-accent-alt-right {
+	background-color: var(--color-box-gray-bg);
+	color: var(--color-box-gray-text);
+	padding: var(--padding-box);
+	margin-bottom: var(--spacing-element);
+	clear: both;
+}
+
+
+/* Halbspaltige graue Box links */
+.box-gray-left,
+.box-accent-left,
+.box-accent-alt-left {
+	float: inline-start;
+	width: var(--width-half-column);
+	margin-top: 0;
+	margin-inline-end: var(--spacing-element);
+	margin-bottom: var(--spacing-element);
+	margin-inline-start: 0;
+	clear: inline-start;
+}
+
+/* Halbspaltige graue Box rechts */
+.box-gray-right,
+.box-accent-right,
+.box-accent-alt-right {
+	float: inline-end;
+	width: var(--width-half-column);
+	margin-top: 0;
+	margin-inline-end: 0;
+	margin-bottom: var(--spacing-element);
+	margin-inline-start: var(--spacing-element);
+	clear: inline-end;
+}
+
+.box-gray-right a,
+.box-gray-left a,
+.box-gray-full a,
+.box-gray a {
+	color: var(--box-gray-link-color);
+}
+
+@media screen {
+	.box-accent-full,
+	.box-accent-alt-full,
+	.box-gray-full {
+		margin-left: calc(-1 * var(--spacing-element));
+		margin-right: calc(-1 * var(--spacing-element));
+		max-width: calc(100% + 2 * var(--spacing-element));
+		padding-left: var(--spacing-element);
+		padding-right: var(--spacing-element);
+	}
+}
+
+
+/* ================================
+   Farbige Boxen (Akzentfarbe)
+   ================================ */
+
+/* Ganzspaltige farbige Box */
+.box-accent,
+.box-accent-full {
+	background-color: var(--color-box-accent-bg);
+	color: var(--color-box-accent-text);
+}
+
+.box-accent-alt,
+.box-accent-alt-full {
+	background-color: var(--color-box-accent-alt-bg);
+	color: var(--color-box-accent-alt-text);
+}
+
+/* Halbspaltige farbige Box links */
+.box-accent-left {
+	background-color: var(--color-box-accent-bg);
+	color: var(--color-box-accent-text);
+}
+
+.box-accent-alt-left {
+	background-color: var(--color-box-accent-alt-bg);
+	color: var(--color-box-accent-alt-text);
+}
+
+/* Halbspaltige farbige Box rechts */
+.box-accent-right {
+	background-color: var(--color-box-accent-bg);
+	color: var(--color-box-accent-text);
+}
+
+.box-accent-alt-right {
+	background-color: var(--color-box-accent-alt-bg);
+	color: var(--color-box-accent-alt-text);
+}
+
+/* marker */
+.box-gray li::marker,
+.box-gray-full li::marker,
+.box-gray-left li::marker,
+.box-gray-right li::marker {
+	color: var(--color-box-gray-marker);
+}
+
+
+.box-accent li::marker,
+.box-accent-full li::marker,
+.box-accent-left li::marker,
+.box-accent-right li::marker {
+	color: var(--color-box-accent-text);
+}
+
+.box-accent-alt li::marker,
+.box-accent-alt-full li::marker,
+.box-accent-alt-left li::marker,
+.box-accent-alt-right li::marker {
+	color: var(--color-box-accent-alt-text);
+}
+
+
+/* print optimization */
+@media print {
+	.box-gray, 
+	.box-gray-right,
+	.box-gray-left {
+		border: var(--line-thin) solid var(--color-box-gray-bg)
+	}
+
+	.box-accent,
+	.box-accent-left,
+	.box-accent-right {
+		border: var(--line-thin) solid var(--color-box-accent-bg)
+	}
+	.box-accent-alt,
+	.box-accent-alt-left,
+	.box-accent-alt-right {
+		border: var(--line-thin) solid var(--color-box-accent-alt-bg)
+	}
+	
+	.box-gray-full {
+		border-top: var(--line-thin) solid var(--color-box-gray-bg);
+		border-bottom: var(--line-thin) solid var(--color-box-gray-bg);
+	}
+	.box-accent-full {
+		border-top: var(--line-thin) solid var(--color-box-accent-bg);
+		border-bottom: var(--line-thin) solid var(--color-box-accent-bg);
+	}
+	.box-accent-alt-full {
+		border-top: var(--line-thin) solid var(--color-box-accent-alt-bg);
+		border-bottom: var(--line-thin) solid var(--color-box-accent-alt-bg);
+	}
+	
+
+	.box-gray-right,
+	.box-gray-left,
+	.box-accent-left,
+	.box-accent-alt-left,
+	.box-accent-right,
+	.box-accent-alt-right {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+}
+
+
+/* ================================
+   Header-Stile in grauen Boxen
+   ================================ */
+.box-grid-item h1,
+.box-grid-item h2,
+.box-grid-item h3,
+.box-grid-item h4,
+.box-gray-full h1,
+.box-gray-full h2,
+.box-gray-full h3,
+.box-gray-full h4,
+.box-gray h1,
+.box-gray h2,
+.box-gray h3,
+.box-gray h4,
+.box-gray-left h1,
+.box-gray-left h2,
+.box-gray-left h3,
+.box-gray-left h4,
+.box-gray-right h1,
+.box-gray-right h2,
+.box-gray-right h3,
+.box-gray-right h4 {
+	color: var(--color-box-gray-header);
+}
+
+
+/* Trenner in grauen Boxen */
+.box-grid-item hr,
+.box-gray-full hr,
+.box-gray hr,
+.box-gray-left hr,
+.box-gray-right hr {
+	border: none;
+	border-top: var(--line-thin) solid var(--color-box-gray-divider);
+	margin: var(--spacing-element) 0;
+}
+
+
+/* ================================
+   Header-Stile in farbigen Boxen
+   ================================ */
+.box-grid-item-accent h1,
+.box-grid-item-accent h2,
+.box-grid-item-accent h3,
+.box-grid-item-accent h4,
+.box-accent-full h1,
+.box-accent-full h2,
+.box-accent-full h3,
+.box-accent-full h4,
+.box-accent h1,
+.box-accent h2,
+.box-accent h3,
+.box-accent h4,
+.box-accent-left h1,
+.box-accent-left h2,
+.box-accent-left h3,
+.box-accent-left h4,
+.box-accent-right h1,
+.box-accent-right h2,
+.box-accent-right h3,
+.box-accent-right h4 {
+	color: var(--color-box-accent-header);
+}
+
+.box-grid-item-accent-alt h1,
+.box-grid-item-accent-alt h2,
+.box-grid-item-accent-alt h3,
+.box-grid-item-accent-alt h4,
+.box-accent-alt-full h1,
+.box-accent-alt-full h2,
+.box-accent-alt-full h3,
+.box-accent-alt-full h4,
+.box-accent-alt h1,
+.box-accent-alt h2,
+.box-accent-alt h3,
+.box-accent-alt h4,
+.box-accent-alt-left h1,
+.box-accent-alt-left h2,
+.box-accent-alt-left h3,
+.box-accent-alt-left h4,
+.box-accent-alt-right h1,
+.box-accent-alt-right h2,
+.box-accent-alt-right h3,
+.box-accent-alt-right h4 {
+	color: var(--color-box-accent-alt-header);
+}
+
+/* Trenner in farbigen Boxen */
+.box-grid-item-accent hr,
+.box-accent-full hr,
+.box-accent hr,
+.box-accent-left hr,
+.box-accent-right hr {
+	border-top-color: var(--color-box-accent-divider);
+	margin: var(--spacing-element) 0;
+}
+
+.box-grid-item-accent-alt hr,
+.box-accent-alt hr,
+.box-accent-alt-full hr,
+.box-accent-alt-left hr,
+.box-accent-alt-right hr {
+	border-top-color: var(--color-box-accent-alt-divider);
+	margin: var(--spacing-element) 0;
+}
+
+
+/* ===================================
+   Link-Stile in farbigen boxen   
+   =================================== */
+   
+.box-grid-item-accent a,
+.box-accent-right a,
+.box-accnet-left a,
+.box-accent-full a,
+.box-accent a {
+	color: var(--color-box-accent-link-color);
+}
+
+.box-grid-item-accent-alt a,
+.box-accent-alt-right a,
+.box-accnet-alt-left a,
+.box-accent-alt-full a,
+.box-accent-alt a {
+	color: var(--color-box-accent-alt-link-color);
+}
+
+/* ================================
+   Responsive Anpassung: Tablet (≤1024px)
+   ================================ */
+@media screen and (max-width: 40rem) {
+	.box-gray-left,
+	.box-gray-right,
+	.box-accent-left,
+	.box-accent-right,
+	.box-accent-alt-left,
+	.box-accent-alt-right,
+	.img-left,
+	.img-right {
+		float: none;
+		width: auto;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+/* ================================
+   Responsive Anpassung: Mobile (≤768px)
+   ================================ */
+@media screen and (max-width: 30rem) {
+	.box-gray-left,
+	.box-gray-right,
+	.box-accent-left,
+	.box-accent-right,
+	.box-accent-alt-left,
+	.box-accent-alt-right,
+	.img-left,
+	.img-right {
+		float: none;
+		width: auto;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	/* Optional: Schriftgröße anpassen */
+	body {
+		font-size: 1rem;
+	}
+}
+
+/* ================================
+   Encoches – Rahmen oben und links
+   ================================ */
+
+/* Standard-Encoche: mitteldicker Rand oben und links */
+.encoche {
+	border-top: var(--line-medium) solid var(--color-accent);
+	border-inline-start: var(--line-medium) solid var(--color-accent);
+	padding: var(--padding-box);
+	margin-bottom: var(--spacing-element);
+	clear: both;
+}
+
+.encoche-alt {
+	border-top: var(--line-medium) solid var(--color-accent-alt);
+	border-inline-start: var(--line-medium) solid var(--color-accent-alt);
+	padding: var(--padding-box);
+	margin-bottom: var(--spacing-element);
+	clear: both;
+}
+
+
+/* Starke Encoche: mitteldicker Rand oben, dicker Rand links */
+.encoche-strong {
+	border-top: var(--line-medium) solid var(--color-accent);
+	border-inline-start: var(--padding-box) solid var(--color-accent); /* dicker als line-medium */
+	padding: var(--padding-box);
+	margin-bottom: var(--spacing-element);
+	clear: both;
+}
+
+.encoche-alt-strong {
+	border-top: var(--line-medium) solid var(--color-accent-alt);
+	border-inline-start: var(--padding-box) solid var(--color-accent-alt); /* dicker als line-medium */
+	padding: var(--padding-box);
+	margin-bottom: var(--spacing-element);
+	clear: both;
+}
+
+
+/* === Standard Input-Stil === */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+	background-color: var(--input-bg-default);
+	color: var(--input-text-default);
+	border: var(--line-thin) solid var(--input-border-default);
+	padding: 0.5rem;
+	font-size: 1rem;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+	border-color: var(--input-focus-border-default);
+	outline: none;
+}
+
+
+/* === Input-Stil in grauen Boxen === */
+.box-gray-full input,
+.box-gray-full textarea,
+.box-gray-full select,
+.box-gray input,
+.box-gray textarea,
+.box-gray select,
+.box-gray-left input,
+.box-gray-left textarea,
+.box-gray-left select,
+.box-gray-right input,
+.box-gray-right textarea,
+.box-gray-right select {
+	background-color: var(--input-bg-gray);
+	color: var(--input-text-gray);
+	border: var(--line-thin) solid var(--input-border-gray);
+}
+
+.box-gray input:focus,
+.box-gray-full input:focus,
+.box-gray-left input:focus,
+.box-gray-right input:focus,
+.box-gray textarea:focus,
+.box-gray-full textarea:focus,
+.box-gray-left textarea:focus,
+.box-gray-right textarea:focus,
+.box-gray select:focus,
+.box-gray-full select:focus,
+.box-gray-left select:focus,
+.box-gray-right select:focus {
+	border-color: var(--input-focus-border-gray);
+}
+
+/* === Input-Stil in farbigen Boxen === */
+.box-accent input,
+.box-accent textarea,
+.box-accent select,
+.box-accent-full input,
+.box-accent-full textarea,
+.box-accent-full select,
+.box-accent-left input,
+.box-accent-left textarea,
+.box-accent-left select,
+.box-accent-right input,
+.box-accent-right textarea,
+.box-accent-right select {
+	background-color: var(--input-bg-accent);
+	color: var(--input-text-accent);
+	border: var(--line-thin) solid var(--input-border-accent);
+}
+
+.box-accent-alt input,
+.box-accent-alt textarea,
+.box-accent-alt select,
+.box-accent-alt-full input,
+.box-accent-alt-full textarea,
+.box-accent-alt-full select,
+.box-accent-alt-left input,
+.box-accent-alt-left textarea,
+.box-accent-alt-left select,
+.box-accent-alt-right input,
+.box-accent-alt-right textarea,
+.box-accent-alt-right select {
+	background-color: var(--input-bg-accent-alt);
+	color: var(--input-text-accent-alt);
+	border: var(--line-thin) solid var(--input-border-accent-alt);
+}
+
+
+
+.box-accent input:focus,
+.box-accent-full input:focus,
+.box-accent-left input:focus,
+.box-accent-right input:focus,
+.box-accent textarea:focus,
+.box-accent-full textarea:focus,
+.box-accent-left textarea:focus,
+.box-accent-right textarea:focus,
+.box-accent select:focus,
+.box-accent-full select:focus,
+.box-accent-left select:focus,
+.box-accent-right select:focus {
+	border-color: var(--input-focus-border-accent);
+}
+
+.box-accent-alt input:focus,
+.box-accent-alt-full input:focus,
+.box-accent-alt-left input:focus,
+.box-accent-alt-right input:focus,
+.box-accent-alt textarea:focus,
+.box-accent-alt-full textarea:focus,
+.box-accent-alt-left textarea:focus,
+.box-accent-alt-right textarea:focus,
+.box-accent-alt select:focus,
+.box-accent-alt-full select:focus,
+.box-accent-alt-left select:focus,
+.box-accent-alt-right select:focus {
+	border-color: var(--input-focus-border-accent-alt);
+
+}
+
+/* ================================
+   Menü-Grundstruktur
+   ================================ */
+nav.menu {
+	background-color: var(--menu-bg);
+	border-bottom: var(--line-thin) solid var(--menu-border);
+}
+
+nav.menu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+nav.menu li {
+	position: relative;
+}
+
+nav.menu a {
+	display: block;
+	padding: 0.75rem 1.25rem;
+	color: var(--menu-text);
+	text-decoration: none;
+	font-weight: bold;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover-Zustand */
+nav.menu a:hover {
+	background-color: var(--menu-hover-bg);
+	color: var(--menu-hover-text);
+}
+
+/* Aktiver Menüpunkt */
+nav.menu a.active {
+	background-color: var(--menu-active-bg);
+	color: var(--menu-active-text);
+}
+
+/* === Untermenü === */
+nav.menu li ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	inset-inline-start: 0;
+	background-color: var(--submenu-bg);
+	border: var(--line-thin) solid var(--submenu-border);
+	min-width: 12rem;
+	z-index: 1000;
+	flex-direction: column;
+}
+
+nav.menu li:hover > ul {
+	display: block;
+}
+
+nav.menu li ul li {
+	width: 100%;
+}
+
+nav.menu li ul a {
+	padding: 0.5rem 1rem;
+	color: var(--submenu-text);
+	background-color: var(--submenu-bg);
+	display: block;
+	text-decoration: none;
+}
+
+nav.menu li ul a:hover {
+	background-color: var(--submenu-hover-bg);
+	color: var(--submenu-hover-text);
+}
+
+/* =======================================
+	Bild mit Bildunterschrift oder overlay
+	======================================= */
+
+.image-box {
+	position: relative;
+	display: inline-block;
+	width: auto;
+	max-width: 100%;
+	overflow: hidden;
+	margin-bottom: var(--spacing-element);
+}
+
+.image-content {
+	position: relative;
+	display: inline-block;
+	width: auto;
+	max-width: 100%;
+	overflow: hidden;
+	margin-bottom: 0;
+}
+
+.image-overlay {
+	position: absolute;
+	top: 0;
+	inset-inline-start: 0;
+	inset-inline-end: 0;
+	bottom: 0;
+	background-color: transparent; /* Bild bleibt sichtbar */
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end; /* Unterelemente am unteren Rand */
+	padding: 0;
+	margin: 0;
+	pointer-events: none; /* verhindert Klicks auf das Overlay */
+}
+
+
+/* Unterelemente mit halbtransparentem Hintergrund */
+.image-overlay-content {
+	background-color: rgba(255, 255, 255, 0.7);
+	padding: 0.4em 0.8em;
+	border-radius: none;
+	font-size: 0.9rem;
+	pointer-events: auto; /* erlaubt Interaktion mit Inhalt */
+}
+
+
+.image-box-left {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	float: inline-start;
+	width: var(--width-half-column);
+	margin-top: 0;
+	margin-inline-end: var(--spacing-element);
+	margin-bottom: var(--spacing-element);
+	margin-inline-start: 0;
+}
+
+.image-box-right {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	float: inline-end;
+	width: var(--width-half-column);
+	margin-top: 0;
+	margin-inline-end: 0;
+	margin-bottom: var(--spacing-element);
+	margin-inline-start: var(--spacing-element);
+}
+
+@media print {
+	.image-box,
+	.image-box-right,
+	.image-box-left {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+}
+
+.image-box img,
+.image-box-left img,
+.image-box-right img {
+	width: 100%;
+	display: block;
+	margin-bottom: 0;
+}
+
+
+.image-content:has(.image-credits)::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 30%;
+	z-index: 1;
+	/* background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent); */
+	background: linear-gradient(to top, rgba(255, 255, 255, 0.4), transparent);
+}
+
+@media print {
+	.image-content:has(.image-credits)::after {
+		display: none;
+	}
+}
+
+/* Credits sollen über dem Bild liegen */
+.image-credits {
+	position: absolute;
+	bottom: var(--padding-box);
+	inset-inline-end: var(--padding-box);
+	background-color: rgba(255, 255, 255, 0.7);
+	padding: 0.2em 0.6em;
+	border-radius: 999em;
+	font-size: 0.8rem;
+	z-index: 10;
+	font-style: italic;
+}
+
+/* Adaptation to dark scheme */
+@media (prefers-color-scheme: Dark) {
+
+	.image-overlay-content {
+		background-color: rgba(0, 0, 0, 0.7);
+	}
+
+	.image-content:has(.image-credits)::after {
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+	}
+
+	.image-credits {
+		background-color: rgba(0, 0, 0, 0.7);
+	}
+}
+
+
+
+
+
+/* Bildunterschrift bleibt unten */
+.image-caption {
+	margin-bottom: 0;
+	inset-inline-start: var(--padding-box);
+	padding: 0.2em var(--padding-box);
+}
+
+.image-caption * {
+	margin: 0;
+	padding: 0;
+}
+
+
+/* Druckversion */
+@media print {
+
+	.image-overlay {
+		position: static;
+		background: none;
+		margin: 0;
+	}
+
+	.image-credits {
+		position: static;
+		background: none;
+		padding: 0.2em var(--padding-box);
+		inset-inline-start: var(--padding-box);
+		margin: 0;
+	}
+
+	.image-caption {
+		position: static;
+		background: none;
+		padding: 0.2em var(--padding-box);
+		inset-inline-start: var(--padding-box);
+		margin: 0;
+	}
+}
+
+
+
+
+/* ==== box grid ====== */
+
+.box-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(var(--grid-box-width), 1fr));
+	gap: var(--grid-box-gap);
+	clear: both;
+	margin-bottom: var(--spacing-element);
+}
+
+.box-grid-item {
+	padding: var(--grid-box-padding);
+	box-sizing: border-box;
+}
+
+.box-grid-item-bg {
+	background-color: var(--color-bg-main);
+	border: var(--line-thin) solid var(--color-bg-main);
+	padding: var(--grid-box-padding);
+	border-radius: var(--grid-box-radius);
+	box-sizing: border-box;
+}
+
+
+.box-grid-item-gray {
+	background-color: var(--grid-box-bg);
+	border: var(--line-thin) solid var(--grid-box-border);
+	color: var(--grid-box-text);
+	padding: var(--grid-box-padding);
+	border-radius: var(--grid-box-radius);
+	box-sizing: border-box;
+}
+
+.box-grid-item-accent {
+	background-color: var(--grid-box-accent-bg);
+	border: var(--line-thin) solid var(--grid-box-accent-border);
+	color: var(--grid-box-accent-text);
+	padding: var(--grid-box-padding);
+	border-radius: var(--grid-box-radius);
+	box-sizing: border-box;
+}
+
+.box-grid-item-accent-alt {
+	background-color: var(--grid-box-accent-alt-bg);
+	border: var(--line-thin) solid var(--grid-box-accent-alt-border);
+	color: var(--grid-box-accent-alt-text);
+	padding: var(--grid-box-padding);
+	border-radius: var(--grid-box-radius);
+	box-sizing: border-box;
+}
+
+.box-grid-item-image {
+	border-radius: var(--grid-box-radius);
+	box-sizing: border-box;
+}
+
+	.box-grid-item-image img {
+		border-radius: var(--rounded-radius);
+		margin: 0;
+	}
+
+.box-grid-item-gray li::marker {
+	color: var(--grid-box-marker);
+}
+
+.box-grid-item-accent li::marker {
+	color: var(--grid-box-accent-marker);
+}
+
+.box-grid-item-accent-alt li::marker {
+	color: var(--grid-box-accent-alt-marker);
+}
+
+
+@media print {
+	.box-grid {
+		/* display: block;*/
+	}
+
+	.box-grid-item,
+	.box-grid-item-bg,
+	.box-grid-item-gray,
+	.box-grid-item-accent,
+	.box-grid-item-accent-alt {
+		page-break-inside: avoid;
+		break-inside: avoid;
+		margin-bottom: var(--grid-box-gap);
+	}
+}
+
+
+
+
+/* Entfernt oberes Margin bei Überschrift als erstem Element in Boxen */
+.encoche > *:first-child,
+.encoche-strong > *:first-child,
+.callout-box-left > *:first-child,
+.callout-box-right > *:first-child,
+.callout-box > *:first-child,
+.box-grid-item > *:first-child,
+.box-grid-item-bg > *:first-child,
+.box-grid-item-gray > *:first-child,
+.box-grid-item-accent > *:first-child,
+.box-grid-item-accent-alt > *:first-child,
+.box-gray > *:first-child,
+.box-gray-full > *:first-child,
+.box-gray-left > *:first-child,
+.box-gray-right > *:first-child,
+.box-accent > *:first-child,
+.box-accent-full > *:first-child,
+.box-accent-left > *:first-child,
+.box-accent-right > *:first-child,
+.box-accent-alt > *:first-child,
+.box-accent-alt-full > *:first-child,
+.box-accent-alt-left > *:first-child,
+.box-accent-alt-right > *:first-child {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+
+.encoche > [class*="-left"] + *,
+.encoche-strong > [class*="-left"] + *,
+.callout-box-left > [class*="-left"] + *,
+.callout-box-right > [class*="-left"] + *,
+.callout-box > [class*="-left"] + *,
+.box-grid-item > [class*="-left"] + *,
+.box-grid-item-bg > [class*="-left"] + *,
+.box-grid-item-gray > [class*="-left"] + *,
+.box-grid-item-accent > [class*="-left"] + *,
+.box-grid-item-accent-alt > [class*="-left"] + *,
+.box-gray > [class*="-left"] + *,
+.box-gray-full > [class*="-left"] + *,
+.box-gray-left > [class*="-left"] + *,
+.box-gray-right > [class*="-left"] + *,
+.box-accent > [class*="-left"] + *,
+.box-accent-full > [class*="-left"] + *,
+.box-accent-left > [class*="-left"] + *,
+.box-accent-right > [class*="-left"] + *
+.box-accent-alt > [class*="-left"] + *,
+.box-accent-alt-full > [class*="-left"] + *,
+.box-accent-alt-left > [class*="-left"] + *,
+.box-accent-alt-right > [class*="-left"] + *,
+.encoche > [class*="-right"] + *,
+.encoche-strong > [class*="-right"] + *,
+.callout-box-left > [class*="-right"] + *,
+.callout-box-right > [class*="-right"] + *,
+.callout-box-full > [class*="-right"] + *,
+.callout-box > [class*="-right"] + *,
+.box-grid-item > [class*="-right"] + *,
+.box-grid-item-bg > [class*="-right"] + *,
+.box-grid-item-gray > [class*="-right"] + *,
+.box-grid-item-accent > [class*="-right"] + *,
+.box-grid-item-accent-alt > [class*="-right"] + *,
+.box-gray > [class*="-right"] + *,
+.box-gray-full > [class*="-right"] + *,
+.box-gray-left > [class*="-right"] + *,
+.box-gray-right > [class*="-right"] + *,
+.box-accent > [class*="-right"] + *,
+.box-accent-full > [class*="-right"] + *,
+.box-accent-left > [class*="-right"] + *,
+.box-accent-alt-right > [class*="-right"] + *,
+.box-accent-alt > [class*="-right"] + *,
+.box-accent-alt-full > [class*="-right"] + *,
+.box-accent-alt-left > [class*="-right"] + *,
+.box-accent-alt-right > [class*="-right"] + * {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+
+/* Entfernt unteres Margin und Padding beim letzten Element in Boxen */
+.encoche > *:last-child,
+.encoche-strong > *:last-child,
+.callout-box-left > *:last-child,
+.callout-box-right > *:last-child,
+.callout-box-full > *:last-child,
+.callout-box > *:last-child,
+.box-grid-item > *:last-child,
+.box-grid-item-bg > *:last-child,
+.box-grid-item-gray > *:last-child,
+.box-grid-item-accent > *:last-child,
+.box-grid-item-accent-alt > *:last-child,
+.box-gray > *:last-child,
+.box-gray-full > *:last-child,
+.box-gray-left > *:last-child,
+.box-gray-right > *:last-child,
+.box-accent > *:last-child,
+.box-accent-full > *:last-child,
+.box-accent-left > *:last-child,
+.box-accent-right > *:last-child,
+.box-accent-alt > *:last-child,
+.box-accent-alt-full > *:last-child,
+.box-accent-alt-left > *:last-child,
+.box-accent-alt-right > *:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.encoche > [class*="-right"]:has(+ p:last-child),
+.encoche-strong > [class*="-right"]:has(+ p:last-child),
+.callout-box-left > [class*="-right"]:has(+ p:last-child),
+.callout-box-right > [class*="-right"]:has(+ p:last-child),
+.callout-box > [class*="-right"]:has(+ p:last-child),
+.box-grid-item > [class*="-right"]:has(+ p:last-child),
+.box-grid-item-bg > [class*="-right"]:has(+ p:last-child),
+.box-grid-item-gray > [class*="-right"]:has(+ p:last-child),
+.box-grid-item-accent > [class*="-right"]:has(+ p:last-child),
+.box-grid-item-accent-alt > [class*="-right"]:has(+ p:last-child),
+.box-gray > [class*="-right"]:has(+ p:last-child),
+.box-gray-full > [class*="-right"]:has(+ p:last-child),
+.box-gray-left > [class*="-right"]:has(+ p:last-child),
+.box-gray-right > [class*="-right"]:has(+ p:last-child),
+.box-accent > [class*="-right"]:has(+ p:last-child),
+.box-accent-full > [class*="-right"]:has(+ p:last-child),
+.box-accent-left > [class*="-right"]:has(+ p:last-child),
+.box-accent-right > [class*="-right"]:has(+ p:last-child),
+.box-accent-alt > [class*="-right"]:has(+ p:last-child),
+.box-accent-alt-full > [class*="-right"]:has(+ p:last-child),
+.box-accent-alt-left > [class*="-right"]:has(+ p:last-child),
+.box-accent-alt-right > [class*="-right"]:has(+ p:last-child),
+.encoche > [class*="-left"]:has(+ p:last-child),
+.encoche-strong > [class*="-left"]:has(+ p:last-child),
+.callout-box-left > [class*="-left"]:has(+ p:last-child),
+.callout-box-right > [class*="-left"]:has(+ p:last-child),
+.callout-box-full > [class*="-left"]:has(+ p:last-child),
+.callout-box > [class*="-left"]:has(+ p:last-child),
+.box-grid-item > [class*="-left"]:has(+ p:last-child),
+.box-grid-item-bg > [class*="-left"]:has(+ p:last-child),
+.box-grid-item-gray > [class*="-left"]:has(+ p:last-child),
+.box-grid-item-accent > [class*="-left"]:has(+ p:last-child),
+.box-grid-item-accent-alt > [class*="-left"]:has(+ p:last-child),
+.box-gray > [class*="-left"]:has(+ p:last-child),
+.box-gray-full > [class*="-left"]:has(+ p:last-child),
+.box-gray-left > [class*="-left"]:has(+ p:last-child),
+.box-gray-right > [class*="-left"]:has(+ p:last-child),
+.box-accent > [class*="-left"]:has(+ p:last-child),
+.box-accent-full > [class*="-left"]:has(+ p:last-child),
+.box-accent-left > [class*="-left"]:has(+ p:last-child),
+.box-accent-right > [class*="-left"]:has(+ p:last-child),
+.box-accent-alt > [class*="-left"]:has(+ p:last-child),
+.box-accent-alt-full > [class*="-left"]:has(+ p:last-child),
+.box-accent-alt-left > [class*="-left"]:has(+ p:last-child),
+.box-accent-alt-right > [class*="-left"]:has(+ p:last-child) {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+
+/* cleart das Ende aller boxen */
+.encoche::after,
+.encoche-strong::after,
+.callout-box-left::after,
+.callout-box-right::after,
+.callout-box::after,
+.box-grid-item::after,
+.box-grid-item-bg::after,
+.box-grid-item-gray::after,
+.box-grid-item-accent::after,
+.box-grid-item-accent-alt::after,
+.box-gray::after,
+.box-gray-full::after,
+.box-gray-left::after,
+.box-gray-right::after,
+.box-accent::after,
+.box-accent-full::after,
+.box-accent-left::after,
+.box-accent-right::after,
+.box-accent-alt::after,
+.box-accent-alt-full::after,
+.box-accent-alt-left::after,
+.box-accent-alt-right::after {
+	content: "";
+	display: block;
+	clear: both;
+}
