@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Beispielseite mit Hauptbild</title>
+  <link rel="stylesheet" href="test.css" />
+</head>
+<body>
+  <main>
+    <h1>Willkommen auf meiner Beispielseite</h1>
+
+	<nav class="menu">
+	  <ul>
+		<li><a href="#startseite">Startseite</a></li>
+		<li><a href="#produkte">Produkte</a>
+		  <ul>
+			<li><a href="#produkt-a">Produkt A</a></li>
+			<li><a href="#produkt-b">Produkt B</a></li>
+			<li><a href="#produkt-c">Produkt C</a></li>
+		  </ul>
+		</li>
+		<li><a href="#ueber-uns">Über uns</a></li>
+		<li><a href="#kontakt">Kontakt</a></li>
+	  </ul>
+	</nav>
+
+    <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg"/>
+
+    <p>
+      Dies ist ein Beispieltext im <a href="#a" >Hauptbereich</a> der Seite. Die Farben sind ruhig und angenehm für das Auge,
+      die Schrift ist gut lesbar und die Abstände sorgen für ein klares Layout.
+    </p>
+
+    <p>
+      Du kannst diesen Bereich nutzen, um Inhalte wie Texte, Bilder oder Boxen darzustellen.
+      Das Hauptbild oben passt sich automatisch der Breite des Hauptbereichs an.
+    </p>
+	
+	<h1>Beispielseite: Trenner und Bilder</h1>
+	  <p>Diese Seite zeigt, wie horizontale Trenner und Bilder mit den definierten CSS-Klassen verwendet werden können.</p>
+
+	  <!-- Dünner Trenner -->
+	  <hr class="hr-thin">
+
+	  <h2>Ganzspaltiges Bild</h2>
+	  <p>Ein Bild, das die gesamte Breite einnimmt:</p>
+      <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg" class="img-full"/>
+	  
+	  beispielbild.jpg
+
+	  <!-- Mitteldicker Trenner -->
+	  <hr class="hr-medium">
+
+	  <h2>Halbspaltige Bilder</h2>
+	  <p>Links und rechts platzierte Bilder mit Textfluss:</p>
+
+      <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg" class="img-left"/>
+      <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg" class="img-right"/>
+
+	  <p>Der Text fließt um die Bilder herum. Dies ist besonders nützlich für Layouts mit begleitenden Bildern zu Textabschnitten.</p>
+
+	  <!-- 50%-Breite Trenner -->
+	  <hr class="hr-half">
+
+	  <h2>Hauptbild zentriert</h2>
+	  <p>Ein zentriertes Bild mit Rahmen:</p>
+	  beispielbild.jpg
+
+	  <!-- Alternativer Trenner -->
+	  <hr class="hr-alt">
+
+	  <p>Ende des Beispiels. Du kannst die Klassen beliebig kombinieren und erweitern.</p>
+
+	
+	<h1>Beispielseite: Graue und Farbige Boxen</h1>
+	  <p>Diese Seite zeigt <a href="#c">verschiedene</a> Boxen mit Text und Bildern.</p>
+
+	  <!-- Ganzspaltige graue Box -->
+	  <div class="box-gray-full">
+		<h2>Ganzspaltige graue Box</h2>
+		<p>Diese Box nutzt die volle Breite und eignet sich für wichtige Hinweise oder Absätze.</p>
+	  </div>
+
+	  <!-- Halbspaltige graue Box links mit Bild -->
+	  <div class="box-gray-left">
+		<h3>Graue Box links</h3>
+		<p>Diese Box enthält ein Bild:</p>
+		<img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg" class="img-left"/>
+	  </div>
+
+	  <!-- Halbspaltige graue Box rechts mit Text -->
+	  <div class="box-gray-right">
+		<h3>Graue Box rechts</h3>
+		<p>Diese Box enthält nur Text. Sie steht rechts neben der linken Box.</p>
+	  </div>
+
+	  <!-- Clearfix -->
+	  <div style="clear: both;"></div>
+
+	  <!-- Ganzspaltige farbige Box mit Bild -->
+	  <div class="box-accent-full">
+		<h2>Farbige Box mit Bild</h2>
+		<p>Diese Box hebt sich farblich ab und enthält ein zentriertes Bild:</p>
+        
+		<div class="image-box-right">
+		  <div class="image-content rounded-top rounded-bottom">
+			  <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg"/>
+			  <div class="image-credits">Foto: Max Mustermann</div>
+		  </div>
+		  <div class="image-caption">Bildunterschrift</div>
+		</div>
+		  <p>lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. 
+		  lorem ipsum dolor sit amet. <a href="#b">lorem ipsum</a> dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. 
+		  lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. 
+		  lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. 
+		  lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. lorem ipsum dolor sit amet. </p>
+	  </div>
+
+	  <!-- Halbspaltige farbige Box links mit Text -->
+	  <div class="box-accent-left">
+		<h3>Farbige Box links</h3>
+		<p>Ideal für kurze Inhalte oder visuelle Elemente.</p>
+	  </div>
+
+	  <!-- Halbspaltige farbige Box rechts mit Bild -->
+	  <div class="box-accent-right">
+		<h3>Farbige Box rechts</h3>
+		
+		<div class="image-box-right">
+		  <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg"/>
+		  <div class="image-overlay">
+			<div class="image-overlay-content">Bildunterschrift</div>
+			<div class="image-overlay-content">Foto: Max Mustermann</div>
+		  </div>
+		</div>
+
+        
+		<p>Ein Bild in einer halbspaltigen farbigen Box.</p>
+	  </div>
+
+	  <!-- Clearfix -->
+	  <div style="clear: both;"></div>
+	
+		<!-- Standard-Encoche -->
+	<div class="encoche">
+	  <h3>Standard-Encoche</h3>
+	  <p>Diese Box hat einen mitteldicken Rand oben und links.</p>
+	</div>
+
+	<!-- Starke Encoche mit Bild -->
+	<div class="encoche-strong">
+	  <h3>Starke Encoche mit Bild</h3>
+      <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg"/>
+	  <p>Diese Variante hat einen dickeren linken Rand und eignet sich gut für visuelle Hervorhebungen.</p>
+	</div>
+	
+
+	<div class="image-box">
+	  <div class="image-content rounded-top rounded-bottom">
+		  <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg"/>
+		  <div class="image-credits">Foto: Max Mustermann</div>
+	  </div>
+      <div class="image-caption">Bildunterschrift</div>
+	</div>
+
+	<div class="callout-box">
+      <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg"/>
+	  
+	</div>
+	
+	<div class="callout-box-left">
+	  <p>Lorem ipsum</p>
+	</div>
+
+	<div class="callout-box-right">
+	  <p>Lorem ipsum</p>
+	</div>
+	
+	<div class="box-grid">
+	  <div class="box-grid-item"><h3>Box 1</h3>bbb</div>
+	  <div class="box-grid-item">Box 2</div>
+	  <div class="box-grid-item-accent">Box 3</div>
+	  <div class="box-grid-item-accent-alt"><h3>Box 4</h3>bbb</div>
+	  <div class="box-grid-item-image">
+	      <div class="image-content">
+			  <img src="file://C:/Users/a.hofmann/Pictures/Backgrounds/Screenshot 2025-06-05 103140.jpg"/>
+			  <div class="image-overlay">
+				<div class="image-overlay-content">Bildunterschrift</div>
+				<div class="image-overlay-content">Foto: Max Mustermann</div>
+			  </div>
+		  </div>
+	  </div>
+	</div>
+
+  </main>
+</body>
+</html>
