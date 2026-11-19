@@ -1,8 +1,12 @@
-CreateMsiFromFolder/obj/**
-CreateMsiFromFolder/bin/Release/**
-CreateMsiFromFolder/bin/Debug/**
-CreateMsiFromFolder/bin/*.zip
+**/obj/**
+**/Release/**
+**/Debug/**
+**/bin/*.zip
+**/*.msi
+**/*.wixpdb
 **/.vs/**
 Backup/**
+*.csv
+*.exe
 *.user
 *.suo
