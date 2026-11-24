@@ -22,20 +22,19 @@ SOFTWARE.
 */
 
 using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Collections.Specialized;
+
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
+
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Remoting.Lifetime;
+
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CreateMsiFromFolder
 {
@@ -295,27 +294,28 @@ namespace CreateMsiFromFolder
                     "\t\t</Directory>\r\n" +
                     "\t  </Directory>\r\n\r\n" +
                     "\t</Directory>\r\n\r\n" +
+                    "\t<StandardDirectory Id=\"ProgramMenuFolder\">\r\n"+
+                    "\t  <Directory Id=\"WindowsMenuFolder\" Name=\"CreateMsiFromFolder\" />\r\n"+
+                    "\t</StandardDirectory>\r\n"+
+                    "\t<StandardDirectory Id=\"DesktopFolder\" />"+
                     "\t<WixVariable Id=\"WixUILicenseRtf\"\r\n" +
                     "\t  Value=\"$(var.CreateMsiFromFolder.TargetDir)"+strLicenseFileName+"\" />\r\n" +
                     "\t<ui:WixUI Id=\"WixUI_InstallDir\"\r\n" +
                     "\t  InstallDirectory=\"INSTALLFOLDER\" />\r\n" +
                     "\t<DirectoryRef Id=\"INSTALLFOLDER\">\r\n" +
-                    //"\t  <Component Id=\"MainExecutableComponent\" Guid=\"D2D1AA35-6A38-43C9-B53F-E6FBA5D9C292\">\r\n" +
-                    //"\t\t<File Id=\"MainExecutable\"\r\n\t\t\t  Source=\"$(var.CreateMsiFromFolder.TargetPath)\"\r\n" +
-                    //"\t\t\t  KeyPath=\"yes\" />\r\n" +
-                    //"\t  </Component>\r\n\r\n" +
-                    //"\t  <Component Id=\"AdditionalFileComponent\" Guid=\"*\">\r\n" +
-                    //"\t\t<File Id=\"AdditionalFile\"\r\n" +
-                    //"\t\t\t  Source=\"$(var.CreateMsiFromFolder.TargetDir)AdditionalFile.txt\"\r\n" +
-                    //"\t\t\t  KeyPath=\"yes\" />\r\n" +
-                    //"\t  </Component>\r\n" +
                     "\t</DirectoryRef>\r\n\r\n" +
-                    "\t<Feature Id=\"MainFeature\" Title=\""+ strApplicationName + "\" Level=\"1\">\r\n" +
-                    //"\t  <ComponentRef Id=\"MainExecutableComponent\" />\r\n" +
-                   // "\t  <ComponentRef Id=\"AdditionalFileComponent\" />\r\n" +
+                    "\t<DirectoryRef Id=\"WindowsMenuFolder\">\r\n" +
+                    "\t  <Component Id=\"WindowsMenuShortcuts\" Guid=\"" + Guid.NewGuid().ToString().ToUpper()+"\">\r\n"+
+                    "\t    <RemoveFolder Id=\"RemoveWindowsMenuFolder\" Directory=\"WindowsMenuFolder\" On=\"uninstall\" />\r\n"+
+                    "\t    <RegistryValue Root=\"HKCU\" Key=\"Software\\"+strCompanyName+"\\"+strApplicationName+"\" Name=\"Installed\" Type=\"integer\" Value=\"1\" KeyPath=\"yes\" />\r\n"+
+                    "\t  </Component>\r\n"+
+                    "\t</DirectoryRef>\r\n"+
+                    "\t<Feature Id=\""+MakeId(strApplicationName)+"\" Title=\"" + strApplicationName + "\" Level=\"1\">\r\n" +
+                    "\t  <ComponentRef Id=\"WindowsMenuShortcuts\" />\r\n" +
                     "\t</Feature>\r\n" +
                     "\t</Package>\r\n" +
                     "</Wix>";
+
                 File.WriteAllText(Path.Combine(strOutputDir, strWxsFile), strWxsFileContentInitial, System.Text.Encoding.UTF8);
             }
 
@@ -603,6 +603,7 @@ namespace CreateMsiFromFolder
         /// <param name="strDirectory">Directory to scan</param>
         /// <param name="strSubdiectory">Current directory, relative to project output directory</param>
         /// <returns>All files in the </returns>
+        //===================================================================================================
         static IEnumerable<string> CollectFiles(string strDirectory, string strSubdiectory)
         {
             foreach (FileInfo fi in new DirectoryInfo(strDirectory).GetFiles()) {
@@ -611,8 +612,11 @@ namespace CreateMsiFromFolder
 
             foreach (DirectoryInfo di in new DirectoryInfo(strDirectory).GetDirectories())
             {
-                foreach (string str in CollectFiles(di.FullName, strSubdiectory != null ? strSubdiectory + "\\" + di.Name : di.Name))
+                foreach (string str in CollectFiles(di.FullName,
+                    strSubdiectory != null ? strSubdiectory + "\\" + di.Name : di.Name))
+                {
                     yield return str;
+                }
             }
         }
 
@@ -623,12 +627,32 @@ namespace CreateMsiFromFolder
         /// <param name="strPath">Path relative to project folder</param>
         /// <returns>Stripped and modified path</returns>
         //===================================================================================================
-        static string MakeIdFromFile(string strPath)
+        static string MakeId(string strPath)
         {
             return strPath.Replace("\\", "_").Replace(" ", "").Replace(".","_").Replace("-","");
         }
 
-        static void GenerateWxsFileContent(string strWxsPath, string strReleaseDir, string strAppName, string strCompanyName, string strStartupProjectName, bool bSkipPdb, string strVersion)
+        //===================================================================================================
+        /// <summary>
+        /// Updates the content of the Wxs file
+        /// </summary>
+        /// <param name="strWxsPath">Path of the Wxs file</param>
+        /// <param name="strReleaseDir">Release directory</param>
+        /// <param name="strAppName">The name of the app to package</param>
+        /// <param name="strCompanyName">The name of the company</param>
+        /// <param name="strStartupProjectName">The name of the startup project file</param>
+        /// <param name="bSkipPdb">Indication, if PDB files should not be packaged</param>
+        /// <param name="strVersion">The version to set in the package</param>
+        //===================================================================================================
+        static void GenerateWxsFileContent(
+            string strWxsPath, 
+            string strReleaseDir, 
+            string strAppName, 
+            string strCompanyName, 
+            string strStartupProjectName, 
+            bool bSkipPdb, 
+            string strVersion
+            )
         {
             var oNameSpaces = new XmlNamespaceManager(new NameTable());
             oNameSpaces.AddNamespace("w", "http://wixtoolset.org/schemas/v4/wxs");
@@ -646,7 +670,7 @@ namespace CreateMsiFromFolder
                     continue;
                 };
 
-                string strId = MakeIdFromFile(strFile).Replace(strAppName+"_resources_dll","resources_dll");
+                string strId = MakeId(strFile).Replace(strAppName+"_resources_dll","resources_dll");
                 XElement oElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']/w:Component/w:File[@Source='$(var.CreateMsiFromFolder.TargetDir)" + strFile + "']", oNameSpaces);
                 if (oElement != null)
                 {
@@ -656,7 +680,7 @@ namespace CreateMsiFromFolder
                 } else
                 {
                     string strDir = strFile.Contains('\\')?strFile.Substring(0, strFile.LastIndexOf("\\")):"";
-                    string strDirId = MakeIdFromFile(string.IsNullOrEmpty(strDir)?"_":strDir);
+                    string strDirId = MakeId(string.IsNullOrEmpty(strDir)?"_":strDir);
 
                     XElement oComponentElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']/w:Component[@Id='"+strDirId+"']", oNameSpaces);
                     if (oComponentElement == null)
@@ -701,18 +725,33 @@ namespace CreateMsiFromFolder
                         XElement oFileElement =
                         new XElement(oComponentElement.Name.Namespace + "File",
                             new XAttribute("Id", strId),
-                            new XAttribute("Source", "$(var." + strStartupProjectName.Substring(0, strStartupProjectName.LastIndexOf('.')) + ".TargetDir)" + strFile),
-                            new XElement(oComponentElement.Name.Namespace + "Shortcut",
-                                new XAttribute("Id", strId + "_pfx"),
-                                new XAttribute("Directory", "ApplicationProgramsFolder"),
-                                new XAttribute("WorkingDirectory", "INSTALLFOLDER"),
-                                new XAttribute("Name", strFile.Substring(strFile.LastIndexOf('\\')+1).Replace(".exe", ""))),
-                            new XElement(oComponentElement.Name.Namespace + "Shortcut",
-                                new XAttribute("Id", strId + "_2_pfx"),
-                                new XAttribute("Directory", "CommonDesktopFolder"),
-                                new XAttribute("WorkingDirectory", "INSTALLFOLDER"),
-                                new XAttribute("Name", strFile.Substring(strFile.LastIndexOf('\\')+1).Replace(".exe", "")))
-                        );
+                            new XAttribute("Source", "$(var." + strStartupProjectName.Substring(0, strStartupProjectName.LastIndexOf('.')) + ".TargetDir)" + strFile));
+
+
+                        XElement oComponentElement2 = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='WindowsMenuFolder']/w:Component[@Id='WindowsMenuShortcuts']", oNameSpaces);
+                        if (oComponentElement2 == null) {
+                            System.Console.WriteLine("Error: couldn't find /Wix/Package/DirectoryRef[@Id='WindowsMenuFolder']/Component[@Id='WindowsMenuShortcuts']");
+                        } else
+                        {
+                            oComponentElement2.Add(
+                                new XElement(oComponentElement2.Name.Namespace + "Shortcut",
+                                    new XAttribute("Id", strId + "_pfx"),
+                                    new XAttribute("Directory", "WindowsMenuFolder"),
+                                    new XAttribute("Name", SplitCamelCase(strFile.Substring(strFile.LastIndexOf('\\') + 1).Replace(".exe", ""))),
+                                    new XAttribute("Target", "[INSTALLFOLDER]" + strFile),
+                                    new XAttribute("WorkingDirectory", "INSTALLFOLDER")
+                                ));
+                            oComponentElement2.Add(
+                                new XElement(oComponentElement2.Name.Namespace + "Shortcut",
+                                    new XAttribute("Id", strId + "_2_pfx"),
+                                    new XAttribute("Directory", "DesktopFolder"),
+                                    new XAttribute("Name", SplitCamelCase(strFile.Substring(strFile.LastIndexOf('\\') + 1).Replace(".exe", ""))),
+                                    new XAttribute("Target", "[INSTALLFOLDER]" + strFile),
+                                    new XAttribute("WorkingDirectory", "INSTALLFOLDER")
+                                ));
+
+                        }
+
                         if (oComponentElement.XPathSelectElement("w:File[@KeyPath='yes']", oNameSpaces) == null)
                         {
 
@@ -723,7 +762,7 @@ namespace CreateMsiFromFolder
                                 oComponentElement.Add(
                                     new XElement(oComponentElement.Name.Namespace + "RemoveFolder",
                                         new XAttribute("Id", strDirId + "_Remove"),
-                                        new XAttribute("Directory", "ApplicationProgramsFolder"),
+                                        new XAttribute("Directory", "WindowsMenuFolder"),
                                         new XAttribute("On", "uninstall")
                                     ));
                             }
@@ -757,10 +796,46 @@ namespace CreateMsiFromFolder
         //===================================================================================================
         static string SplitCamelCase(string strCamelCaseInput)
         {
-            return Regex.Replace(strCamelCaseInput, "([a-z])([A-Z])", "$1 $2");
+            string[] astrParts = strCamelCaseInput.Split('_');
+
+            for (int i = 0; i < astrParts.Length; i++)
+            {
+                if (astrParts[i].Length == 0)
+                {
+                    continue;
+                }
+
+                bool bAllUppercase = true;
+                foreach (char c in astrParts[i])
+                {
+                    if (!char.IsUpper(c))
+                    {
+                        bAllUppercase = false;
+                        break;
+                    }
+                }
+
+                if (bAllUppercase)
+                {
+                    astrParts[i] = astrParts[i][0] +
+                               astrParts[i].Substring(1).ToLower();
+                }
+                else
+                {
+                    astrParts[i] = char.ToUpper(astrParts[i][0]) + astrParts[i].Substring(1);
+                }
+            }
+
+            return Regex.Replace(string.Join(" ", astrParts), "([a-z])([A-Z])", "$1 $2");
         }
 
-
+        //===================================================================================================
+        /// <summary>
+        /// Executes a command line command with arguments
+        /// </summary>
+        /// <param name="strApp">App to start</param>
+        /// <param name="strParameters">the command line arguments</param>
+        //===================================================================================================
         static void Execute(string strApp, string strParameters)
         {
             System.Console.WriteLine(strApp + " " + strParameters);
