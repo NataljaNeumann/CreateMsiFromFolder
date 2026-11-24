@@ -334,7 +334,7 @@ jobs:
 
           $wxsFile = Get-ChildItem -Path . -Recurse -File -Filter *.wxs -ErrorAction SilentlyContinue |
             Select-Object -First 1
-          if ($wxsFile -ne null) {
+          if ($wxsFile -ne $null) {
             $files += $wxsFile
           }
 
