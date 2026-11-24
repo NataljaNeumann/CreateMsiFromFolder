@@ -319,11 +319,6 @@ jobs:
           github_token: ${{ secrets.GH_TOKEN }}
 
 
-      #- name: Upload built zip archive
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: ${{ env.APP_NAME }}-zip
-      #    path: ${{ env.APP_NAME }}/bin/${{ env.APP_NAME }}.zip
 
       - name: Rename output zip to include version
         shell: pwsh
@@ -346,6 +341,12 @@ jobs:
         with:
           name: ${{ env.APP_NAME }}-v${{ steps.increment.outputs.version }}
           path: ${{ env.APP_NAME }}/bin/*v${{ steps.increment.outputs.version }}.zip
+
+      - name: Upload built msi archive(s) as workflow artifact(s)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-v${{ steps.increment.outputs.version }}
+          path: ${{ env.APP_NAME }}.Setup/bin/x86/Release/*v${{ steps.increment.outputs.version }}.msi
 
       - name: Generate release notes (commits since last tag and same major.minor)
         id: generate_release_notes
@@ -568,13 +569,32 @@ jobs:
           $pattern = Join-Path -Path $app -ChildPath "bin/*v$version.zip"
           Write-Host "Searching for files matching: $pattern"
 
+          $pattern2 = Join-Path -Path $app -ChildPath "bin/*v$version.msi"
+          Write-Host "Searching for files matching: $pattern2"
+
           $files = Get-ChildItem -Path $pattern -File -ErrorAction SilentlyContinue
-          if (-not $files -or $files.Count -eq 0) {
-            Write-Host "No files found to upload to release for pattern: $pattern"
+          $files2 = Get-ChildItem -Path $pattern -File -ErrorAction SilentlyContinue
+          if ((-not $files -or $files.Count -eq 0)and
+              (-not $files2 -or $files2.Count -eq 0)){
+            Write-Host "No files found to upload to release for patterns: $pattern $pattern2"
             exit 0
           }
 
           foreach ($f in $files) {
+            $name = $f.Name
+            $uri = "${uploadUrl}?name=$([System.Uri]::EscapeDataString(${name}))"
+            Write-Host "Uploading $($f.FullName) to $uri"
+            $bytes = [System.IO.File]::ReadAllBytes($f.FullName)
+            try {
+              Invoke-RestMethod -Uri $uri -Method Post -Headers @{ Authorization = "token $env:GITHUB_TOKEN"; "Content-Type" = "application/zip" } -Body $bytes
+              Write-Host "Uploaded $name"
+            } catch {
+              Write-Error ("Failed to upload ${name}: " + $_.Exception.Message)
+              exit 1
+            }
+          }
+
+          foreach ($f in $files2) {
             $name = $f.Name
             $uri = "${uploadUrl}?name=$([System.Uri]::EscapeDataString(${name}))"
             Write-Host "Uploading $($f.FullName) to $uri"
