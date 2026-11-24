@@ -22,27 +22,49 @@ SOFTWARE.
 */
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Reflection;
-using System.Diagnostics;
+using System.Runtime.Remoting.Lifetime;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CreateMsiFromFolder
 {
+    //*******************************************************************************************************
+    /// <summary>
+    /// This program creates a .wixproj and a .wxs file
+    /// </summary>
+    //*******************************************************************************************************
     class Program
     {
-        public static void Main(string[] aArgs)
+        //===================================================================================================
+        /// <summary>
+        /// Main method of the application
+        /// </summary>
+        /// <param name="astrArgs">Command line arguments</param>
+        //===================================================================================================
+        public static void Main(string[] astrArgs)
         {
             // Input parameters
+            string strWixProjectFile = "";
+            string strStartupProject = "";
+            string strWxsFile = "";
             string strReleaseDir = Environment.CurrentDirectory;
             string strOutputDir = Directory.GetParent(strReleaseDir).FullName;
-            string strLicenseFilePath = Path.Combine(strReleaseDir, "license.txt");
+            string strLicenseFileName = "license.rtf";
             string strApplicationName = "MyApplication";
             string strCompanyName = "GNU";
             string strVersion = "1.0.0.0";
-            string strUpgradeCodeGuid = Guid.NewGuid().ToString();
-            bool bOnlyXml = false;
+            string strUpgradeCodeGuid = Guid.NewGuid().ToString().ToUpper();
             bool bVersioning = false;
 
             // Extract metadata from one of the .NET executables in the release directory
@@ -57,77 +79,107 @@ namespace CreateMsiFromFolder
             ExtractMetadata(exeFile, ref strApplicationName, ref strCompanyName, ref strVersion);
 
             // Parse command line arguments
-            for (int i = 0; i < aArgs.Length; i++)
+            for (int i = 0; i < astrArgs.Length; i++)
             {
-                switch (aArgs[i])
+                switch (astrArgs[i])
                 {
-                    case "--releasedir":
-                        if (i + 1 < aArgs.Length)
+                    case "--wixproj":
+                        if (i+1 < astrArgs.Length)
                         {
-                            strReleaseDir = aArgs[++i];
-                            strLicenseFilePath = Path.Combine(strReleaseDir, "license.txt");
-                            strOutputDir = Directory.GetParent(strReleaseDir).FullName;
-
+                            strWixProjectFile = astrArgs[++i];
+                        }
+                        break;
+                    case "--startupproj":
+                        if (i+1 < astrArgs.Length)
+                        {
+                            strStartupProject = astrArgs[++i];
+                            if (strWixProjectFile.Equals(""))
+                            {
+                                strWixProjectFile =
+                                    Path.GetFileNameWithoutExtension(strStartupProject) + ".Setup.wixproj";
+                            }
+                        }
+                        break;
+                    case "--wxsfile":
+                        if (i+1 < astrArgs.Length)
+                        {
+                            strWxsFile = astrArgs[++i];
+                        }
+                        break;
+                    case "--releasedir":
+                        if (i + 1 < astrArgs.Length)
+                        {
+                            strReleaseDir = astrArgs[++i];
                             // Extract metadata from one of the .NET executables in the release directory
-                            var exeFile2 = Directory.GetFiles(strReleaseDir, "*.exe").FirstOrDefault();
-                            if (exeFile2 == null)
+                            var strExeFile2 = Directory.GetFiles(strReleaseDir, "*.exe").FirstOrDefault();
+                            if (strExeFile2 == null)
                             {
                                 Console.WriteLine("No .exe files found in the release directory.");
                                 return;
                             }
 
-                            ExtractMetadata(exeFile2, ref strApplicationName, ref strCompanyName, ref strVersion);
+                            ExtractMetadata(strExeFile2, ref strApplicationName, ref strCompanyName, ref strVersion);
+
+                            if (strStartupProject.Equals(""))
+                            {
+                                strStartupProject = strReleaseDir
+                                    .Replace("\\Debug", "")
+                                    .Replace("\\Release", "")
+                                    .Replace("\\bin", "")
+                                    .Replace("\\net8.0", "")
+                                    .Replace("\\net8.0-windows", "");
+                                strStartupProject = strStartupProject.Substring(strStartupProject.LastIndexOf("\\") + 1);
+
+                                if (strWixProjectFile.Equals(""))
+                                {
+                                    strWixProjectFile =
+                                        Path.GetFileNameWithoutExtension(strStartupProject) + ".Setup.wixproj";
+                                }
+                            }
                         }
                         break;
                     case "--outputdir":
-                        if (i + 1 < aArgs.Length)
+                        if (i + 1 < astrArgs.Length)
                         {
-                            strOutputDir = aArgs[++i];
+                            strOutputDir = astrArgs[++i];
                         }
                         break;
                     case "--licencefile":
-                        if (i + 1 < aArgs.Length)
+                        if (i + 1 < astrArgs.Length)
                         {
-                            strLicenseFilePath = aArgs[++i];
-                            if (!strLicenseFilePath.Contains("\\\\") && !strLicenseFilePath.Contains(":"))
-                                strLicenseFilePath = Path.Combine(strReleaseDir, strLicenseFilePath);
+                            strLicenseFileName = astrArgs[++i];
+                            if (!strLicenseFileName.Contains("\\\\") && !strLicenseFileName.Contains(":"))
+                                strLicenseFileName = Path.Combine(strReleaseDir, strLicenseFileName);
                         }
                         break;
                     case "--applicationname":
-                        if (i + 1 < aArgs.Length)
+                        if (i + 1 < astrArgs.Length)
                         {
-                            strApplicationName = aArgs[++i];
+                            strApplicationName = astrArgs[++i];
                         }
                         break;
                     case "--companyname":
-                        if (i + 1 < aArgs.Length)
+                        if (i + 1 < astrArgs.Length)
                         {
-                            strCompanyName = aArgs[++i];
+                            strCompanyName = astrArgs[++i];
                         }
                         break;
                     case "--guid":
-                        if (i + 1 < aArgs.Length)
+                        if (i + 1 < astrArgs.Length)
                         {
-                            strUpgradeCodeGuid = aArgs[++i];
+                            strUpgradeCodeGuid = astrArgs[++i];
                         }
                         break;
                     case "--version":
-                        if (i + 1 < aArgs.Length)
+                        if (i + 1 < astrArgs.Length)
                         {
-                            strVersion = aArgs[++i];
-                        }
-                        break;
-                    case "--onlyxml":
-                    case "--nomsi":
-                        if (i + 1 < aArgs.Length)
-                        {
-                            bOnlyXml = aArgs[++i].Equals("yes");
+                            strVersion = astrArgs[++i];
                         }
                         break;
                     case "--versioning":
-                        if (i + 1 < aArgs.Length)
+                        if (i + 1 < astrArgs.Length)
                         {
-                            bVersioning = aArgs[++i].Equals("yes");
+                            bVersioning = astrArgs[++i].Equals("yes");
                         }
                         break;
                     case "--help":
@@ -155,69 +207,101 @@ namespace CreateMsiFromFolder
                         WriteWrappedText(Properties.Resources.LicenseText);
                         System.Console.WriteLine();
                         WriteWrappedText(
-                            //Properties.Resources.ForConversionToCsv +
-                            "CreateMsiFromFolder --directory <dir> --pattern <pattern> [--sortbyname yes] [--onlystrings no]\r\n" +
-                            "  [--addcultures <comma-separated-list>]");
-                        WriteWrappedText(
-                            //Properties.Resources.ForTranslation +
-                            "CreateMsiFromFolder --directory <dir> --pattern <pattern> \r\n" +
-                            "  --translator <google|microsoft|deepl|toptranslation> --apikey <key> [--sortbyname yes]");
-                        WriteWrappedText(
-                            //Properties.Resources.ForTranslationWithArgos +
-                            "CreateMsiFromFolder --directory <dir> --pattern <pattern> \r\n" +
-                            "  --translator argos [--sortbyname yes]");
-                        WriteWrappedText(
-                            //Properties.Resources.ForTranslationWithLibreTranslate +
-                            "CreateMsiFromFolder --directory <dir> --pattern <pattern> \r\n" +
-                            "  --translator libretranslate --libreurl <url> [--apikey <key>] [--sortbyname yes]");
-                        WriteWrappedText(
-                            //Properties.Resources.ForUpdatingResxFiles +
-                            "CreateMsiFromFolder --directory <dir> --toresx <resources.csv> [--removeduplicates yes]\r\n" +
-                            "  [--addcultures <comma-separated-list>]");
+                            "CreateMsiFromFolder --releasedir <dir> --outputdir <..\\Template.Setup> --wixproj <template.setup.wixproj> --startupproj <template.csproj> --wxsfile <template.wxs> --licencefile license.rtf --applicationname <ApplicationName>");
+                        System.Console.ReadKey();
+
                         return;
                 }
             }
 
-
-            // Validate WiX tools availability
-            if (!bOnlyXml && !CheckWiXToolsAvailability())
-            {
-                Console.WriteLine("WiX Toolset is not installed. Please install it from https://wixtoolset.org/");
-                return;
-            }
-
             // Validate license file
-            if (!File.Exists(strLicenseFilePath))
+            if (!File.Exists(strLicenseFileName))
             {
-                Console.WriteLine("License file not found at: " + strLicenseFilePath);
+                Console.WriteLine("License file not found at: " + strLicenseFileName);
                 return;
             }
 
             // Create output directory
             Directory.CreateDirectory(strOutputDir);
 
+            if (!File.Exists(Path.Combine(strOutputDir, strWixProjectFile)))
+            {
+                string strWixProjFileContent = @"<Project Sdk=""WixToolset.Sdk/4.0.5"" ToolsVersion=""4.0"">" + Environment.NewLine +
+                    "  <PropertyGroup>" +                                                                       Environment.NewLine +
+                    "    <OutputType>Package</OutputType>" +                                                    Environment.NewLine +
+                    "    <OutputName>"+Path.GetFileNameWithoutExtension(strWixProjectFile) +"</OutputName>" +   Environment.NewLine +
+                    "    <PlatformTarget>x86</PlatformTarget>" +                                                Environment.NewLine +
+                    "  </PropertyGroup>" +                                                                      Environment.NewLine +
+                    "  <ItemGroup>" +                                                                           Environment.NewLine +
+                    "    <PackageReference Include=\"WixToolset.UI.wixext\" Version=\"4.0.5\" />" +             Environment.NewLine +
+                    "  </ItemGroup>" +                                                                          Environment.NewLine +
+                    "  <ItemGroup>" +                                                                           Environment.NewLine +
+                    "    <ProjectReference Include=\"..\\" +                                                    
+                        strStartupProject.Substring(0,strStartupProject.LastIndexOf('.')) + "\\" +              
+                        strStartupProject + "\" />" +                                                           Environment.NewLine +
+                    "  </ItemGroup>" +                                                                          Environment.NewLine +
+                    "</Project>";
+
+                File.WriteAllText(Path.Combine(strOutputDir, strWixProjectFile), strWixProjFileContent, System.Text.Encoding.UTF8);
+            }
+
+            if (strWxsFile.Equals(""))
+            {
+                strWxsFile = strStartupProject.Substring(0, strStartupProject.LastIndexOf('.')) + ".wxs";
+            }
+
+            if (!File.Exists(Path.Combine(strOutputDir, strWxsFile)))
+            {
+                if (string.IsNullOrEmpty(strUpgradeCodeGuid))
+                {
+                    strUpgradeCodeGuid = Guid.NewGuid().ToString().ToUpper();
+                };
+
+                string strWxsFileContentInitial = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
+                    "<Wix xmlns=\"http://wixtoolset.org/schemas/v4/wxs\"\r\n"+
+                    "     xmlns:ui=\"http://wixtoolset.org/schemas/v4/wxs/ui\">\r\n" +
+                    "\t<Package Name=\""+strApplicationName+"\"\r\n" +
+                    "\t\t   Language=\"1033\"\r\n" +
+                    "\t\t   Version=\"1.0.0.0\"\r\n" +
+                    "\t\t   Manufacturer=\""+ strCompanyName + "\"\r\n" +
+                    "\t\t   UpgradeCode=\""+ strUpgradeCodeGuid +"\"\r\n" +
+                    "\t\t   Scope=\"perMachine\">\r\n" +
+                    "\t<MajorUpgrade DowngradeErrorMessage=\"A newer version of "+ strApplicationName + " has already been installed.\" />\r\n" +
+                    "\t<MediaTemplate EmbedCab=\"yes\" />\r\n\r\n" +
+                    "\t<Directory Id=\"TARGETDIR\" Name=\"SourceDir\">\r\n" +
+                    "\t  <Directory Id=\"ProgramFilesFolder\">\r\n" +
+                    "\t\t<Directory Id=\"CompanyFolder\" Name=\""+ strCompanyName + "\">\r\n" +
+                    "\t\t  <Directory Id=\"INSTALLFOLDER\" Name=\"" + strApplicationName + "\" />\r\n" +
+                    "\t\t</Directory>\r\n" +
+                    "\t  </Directory>\r\n\r\n" +
+                    "\t</Directory>\r\n\r\n" +
+                    "\t<WixVariable Id=\"WixUILicenseRtf\"\r\n" +
+                    "\t  Value=\"$(var.CreateMsiFromFolder.TargetDir)"+strLicenseFileName+"\" />\r\n" +
+                    "\t<ui:WixUI Id=\"WixUI_InstallDir\"\r\n" +
+                    "\t  InstallDirectory=\"INSTALLFOLDER\" />\r\n" +
+                    "\t<DirectoryRef Id=\"INSTALLFOLDER\">\r\n" +
+                    //"\t  <Component Id=\"MainExecutableComponent\" Guid=\"D2D1AA35-6A38-43C9-B53F-E6FBA5D9C292\">\r\n" +
+                    //"\t\t<File Id=\"MainExecutable\"\r\n\t\t\t  Source=\"$(var.CreateMsiFromFolder.TargetPath)\"\r\n" +
+                    //"\t\t\t  KeyPath=\"yes\" />\r\n" +
+                    //"\t  </Component>\r\n\r\n" +
+                    //"\t  <Component Id=\"AdditionalFileComponent\" Guid=\"*\">\r\n" +
+                    //"\t\t<File Id=\"AdditionalFile\"\r\n" +
+                    //"\t\t\t  Source=\"$(var.CreateMsiFromFolder.TargetDir)AdditionalFile.txt\"\r\n" +
+                    //"\t\t\t  KeyPath=\"yes\" />\r\n" +
+                    //"\t  </Component>\r\n" +
+                    "\t</DirectoryRef>\r\n\r\n" +
+                    "\t<Feature Id=\"MainFeature\" Title=\""+ strApplicationName + "\" Level=\"1\">\r\n" +
+                    //"\t  <ComponentRef Id=\"MainExecutableComponent\" />\r\n" +
+                   // "\t  <ComponentRef Id=\"AdditionalFileComponent\" />\r\n" +
+                    "\t</Feature>\r\n" +
+                    "\t</Package>\r\n" +
+                    "</Wix>";
+                File.WriteAllText(Path.Combine(strOutputDir, strWxsFile), strWxsFileContentInitial, System.Text.Encoding.UTF8);
+            }
+
+
             // Generate .wxs file content
-            string strWxsContent = GenerateWxsFileContent(strReleaseDir, strLicenseFilePath, strApplicationName, strCompanyName, strUpgradeCodeGuid);
-
-            // Save the .wxs file
-            string strWxsFilePath = Path.Combine(strOutputDir, strApplicationName + ".wxs");
-            File.WriteAllText(strWxsFilePath, strWxsContent);
-            Console.WriteLine("Generated WXS file at: " + strWxsFilePath);
-
-            if (bVersioning)
-            {
-                // in case of versioning we save additionally with version inforation and use this file
-                // later
-                strWxsFilePath = Path.Combine(strOutputDir, strApplicationName + " v"+strVersion+".wxs");
-                File.WriteAllText(strWxsFilePath, strWxsContent);
-                Console.WriteLine("Generated WXS file at: " + strWxsFilePath);
-            }
-
-            if (!bOnlyXml)
-            {
-                // Compile and link using WiX tools
-                CompileAndLinkWiX(strWxsFilePath, strOutputDir, strApplicationName);
-            }
+            GenerateWxsFileContent(Path.Combine(strOutputDir, strWxsFile), strReleaseDir, strLicenseFileName, strApplicationName, strCompanyName, strUpgradeCodeGuid, strStartupProject);
         }
 
         //===================================================================================================
@@ -301,8 +385,10 @@ namespace CreateMsiFromFolder
                                        + (strCurrentLine.TrimEnd());
                     }
                     else
+                    {
                         if (bRightToLeft)
                             strCurrentLine = ReverseArabicAndHebrewParts(strCurrentLine);
+                    }
 
 
                     Console.WriteLine(strCurrentLine);
@@ -423,18 +509,6 @@ namespace CreateMsiFromFolder
             return false;
         }
 
-        //===================================================================================================
-        /// <summary>
-        /// Tests, if executables can be executed
-        /// </summary>
-        /// <returns>true iff candle and light can be executed</returns>
-        //===================================================================================================
-        static bool CheckWiXToolsAvailability()
-        {
-            return (File.Exists("candle.exe") && File.Exists("light.exe") ) ||
-                (IsExecutableInPath("candle.exe") && IsExecutableInPath("light.exe"));
-        }
-
 
         //===================================================================================================
         /// <summary>
@@ -499,366 +573,141 @@ namespace CreateMsiFromFolder
             }
         }
 
-
-        static string GenerateWxsFileContent(string releaseDir, string licenseFilePath, string applicationName, string companyName, string upgradeCodeGuid)
+        //===================================================================================================
+        /// <summary>
+        /// Collects all files in a directory
+        /// </summary>
+        /// <param name="strDirectory">Directory to scan</param>
+        /// <param name="strSubdiectory">Current directory, relative to project output directory</param>
+        /// <returns>All files in the </returns>
+        static IEnumerable<string> CollectFiles(string strDirectory, string strSubdiectory)
         {
-            System.Text.StringBuilder oWxsBuilder = new System.Text.StringBuilder();
-            oWxsBuilder.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            oWxsBuilder.AppendLine("<Wix xmlns='http://schemas.microsoft.com/wix/2003/01/wi'>");
+            foreach (FileInfo fi in new DirectoryInfo(strDirectory).GetFiles()) {
+                yield return strSubdiectory != null ? strSubdiectory + "\\"+fi.Name : fi.Name;
+            };
 
-            // Product Definition
-            oWxsBuilder.AppendLine("  <Product Id='"+(Guid.NewGuid())+"' Name='" + applicationName + "' Language='1033' Version='1.0.0.0' Manufacturer='" + companyName + "' UpgradeCode='" + upgradeCodeGuid + "'>");
-            oWxsBuilder.AppendLine("    <Package Id='" + (Guid.NewGuid()) + "' InstallerVersion='200' Compressed='yes' />");
-            //oWxsBuilder.AppendLine("    <MajorUpgrade DowngradeErrorMessage='A newer version of "+applicationName+"is already installed.' />");
-            oWxsBuilder.AppendLine("    <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' />");
-    
-
-            // Define properties
-            oWxsBuilder.AppendLine("    <Property Id='ALLUSERS' Secure='yes' />");
-            oWxsBuilder.AppendLine("    <Property Id='WixUI_InstallScope' Value='perMachine' />");
-
-            /*
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
-  <Product Id="PUT-YOUR-GUID-HERE"
-           Name="MyApp"
-           Language="1033"
-           Version="1.0.0.0"
-           Manufacturer="MyCompany"
-           UpgradeCode="PUT-UPGRADE-GUID-HERE">
-    <Package InstallerVersion="200"
-             Compressed="yes"
-             InstallScope="perMachine" />
-
-    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
-
-    <!-- Directories -->
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="MyApp" />
-      </Directory>
-      <Directory Id="ProgramMenuFolder">
-        <Directory Id="MyAppShortcutFolder" Name="MyApp" />
-      </Directory>
-    </Directory>
-
-    <!-- License File -->
-    <DirectoryRef Id="INSTALLFOLDER">
-      <Component Id="LicenseFileComponent" Guid="PUT-LICENSE-COMPONENT-GUID-HERE">
-        <File Id="LicenseFile" Name="license.txt" Source="license.txt" KeyPath="yes" />
-      </Component>
-    </DirectoryRef>
-
-    <!-- Main Feature -->
-    <Feature Id="MainFeature" Title="MyApp" Level="1">
-      <ComponentRef Id="MyAppExeComponent" />
-      <ComponentRef Id="LicenseFileComponent" />
-    </Feature>
-
-    <!-- Shortcut Component -->
-    <Component Id="MyAppExeComponent" Guid="PUT-COMPONENT-GUID-HERE">
-      <File Id="MyAppExe" Name="MyApp.exe" Source="MyApp.exe" KeyPath="yes" />
-      <Shortcut Id="MyAppShortcut"
-                Directory="MyAppShortcutFolder"
-                Name="MyApp"
-                WorkingDirectory="INSTALLFOLDER"
-                Icon="MyAppIcon"
-                Target="[INSTALLFOLDER]MyApp.exe"
-                Description="Launch MyApp" />
-      <RemoveFolder Id="MyAppShortcutFolder" On="uninstall" />
-      <RegistryValue Root="HKCU" Key="Software\MyCompany\MyApp" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-    </Component>
-
-    <!-- Icon -->
-    <Icon Id="MyAppIcon" SourceFile="MyApp.exe" />
-
-    <!-- UI Sequence -->
-    <UI>
-      <UIRef Id="WixUI_Minimal" />
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
-      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">LicenseAccepted = "1"</Publish>
-    </UI>
-
-    <!-- WixUI Extension -->
-    <WixVariable Id="WIXUI_LICENSERTF" Value="license.txt" />
-  </Product>
-</Wix>
-
-             * 
-             * 
-             * 
-<!-- Inside the TARGETDIR structure -->
-<Directory Id="ProgramFilesFolder">
-  <Directory Id="INSTALLFOLDER" Name="MyApp">
-    <Directory Id="LibsFolder" Name="libs" />
-  </Directory>
-</Directory>
-
-<!-- DLL Component -->
-<DirectoryRef Id="LibsFolder">
-  <Component Id="MyLibraryDllComponent" Guid="PUT-DLL-COMPONENT-GUID-HERE">
-    <File Id="MyLibraryDll" Name="MyLibrary.dll" Source="libs\MyLibrary.dll" KeyPath="yes" />
-  </Component>
-</DirectoryRef>
-
-<!-- Add to Feature -->
-<Feature Id="MainFeature" Title="MyApp" Level="1">
-  <ComponentRef Id="MyAppExeComponent" />
-  <ComponentRef Id="LicenseFileComponent" />
-  <ComponentRef Id="MyLibraryDllComponent" />
-</Feature>
-   
-             * 
-             * 
-             * 
-             * 
-<Property Id="ALLUSERS" Secure="yes" />
-             * 
-<Directory Id="TARGETDIR" Name="SourceDir">
-  <!-- Per-machine install -->
-  <Directory Id="ProgramFilesFolder">
-    <Directory Id="INSTALLFOLDER_MACHINE" Name="MyApp" />
-  </Directory>
-
-  <!-- Per-user install -->
-  <Directory Id="LocalAppDataFolder">
-    <Directory Id="INSTALLFOLDER_USER" Name="MyApp" />
-  </Directory>
-</Directory>
-          
-             * 
-<!-- Set INSTALLFOLDER to machine or user folder -->
-<SetDirectory Id="INSTALLFOLDER" Value="[INSTALLFOLDER_MACHINE]" 
-              After="CostFinalize">
-  <![CDATA[ALLUSERS=1]]>
-</SetDirectory>
-
-<SetDirectory Id="INSTALLFOLDER" Value="[INSTALLFOLDER_USER]" 
-              After="CostFinalize">
-  <![CDATA[ALLUSERS<>"1"]]>
-</SetDirectory>
-             *
-<DirectoryRef Id="INSTALLFOLDER">
-  <Component Id="MyAppExeComponent" Guid="PUT-GUID-HERE">
-    <File Id="MyAppExe" Name="MyApp.exe" Source="MyApp.exe" KeyPath="yes" />
-  </Component>
-</DirectoryRef>
-             * 
-             * 
-             * 
-             * 
-<Dialog Id="InstallScopeDlg" Width="370" Height="270" Title="[ProductName] Setup">
-  <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Text="Choose Install Scope" />
-
-  <Control Id="ScopeGroup" Type="RadioButtonGroup" X="20" Y="40" Width="330" Height="60" Property="ALLUSERS">
-    <RadioButton Value="1" X="0" Y="0" Width="300" Height="15" Text="Install for all users (requires admin)" />
-    <RadioButton Value="" X="0" Y="20" Width="300" Height="15" Text="Install for current user only" />
-  </Control>
-
-  <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="Back">
-    <Publish Event="NewDialog" Value="WelcomeDlg">1</Publish>
-  </Control>
-
-  <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Text="Next">
-    <Publish Event="NewDialog" Value="InstallDirDlg">1</Publish>
-  </Control>
-
-  <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Text="Cancel">
-    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-  </Control>
-</Dialog>
-
-             * 
-<UI>
-  <DialogRef Id="InstallScopeDlg" />
-  <DialogRef Id="WelcomeDlg" />
-  <DialogRef Id="InstallDirDlg" />
-  <DialogRef Id="VerifyReadyDlg" />
-  <DialogRef Id="ProgressDlg" />
-  <DialogRef Id="ExitDlg" />
-
-  <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallScopeDlg">1</Publish>
-  <Publish Dialog="InstallScopeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">1</Publish>
-</UI>
-           
-             * 
-             * 
-             * 
-             * FFULLL___
-             * 
-
-<Directory Id="TARGETDIR" Name="SourceDir">
-  <Directory Id="ProgramFilesFolder">
-    <Directory Id="INSTALLFOLDER_MACHINE" Name="MyApp" />
-  </Directory>
-  <Directory Id="LocalAppDataFolder">
-    <Directory Id="INSTALLFOLDER_USER" Name="MyApp" />
-  </Directory>
-</Directory>
-             * 
-<SetDirectory Id="INSTALLFOLDER" Value="[INSTALLFOLDER_MACHINE]" After="CostFinalize">
-  <![CDATA[ALLUSERS=1]]>
-</SetDirectory>
-<SetDirectory Id="INSTALLFOLDER" Value="[INSTALLFOLDER_USER]" After="CostFinalize">
-  <![CDATA[ALLUSERS<>"1"]]>
-</SetDirectory>
-             * 
-<DirectoryRef Id="INSTALLFOLDER">
-  <Component Id="MyAppExeComponent" Guid="PUT-GUID-HERE">
-    <File Id="MyAppExe" Name="MyApp.exe" Source="MyApp.exe" KeyPath="yes" />
-  </Component>
-</DirectoryRef><DirectoryRef Id="INSTALLFOLDER">
-  <Component Id="MyAppExeComponent" Guid="PUT-GUID-HERE">
-    <File Id="MyAppExe" Name="MyApp.exe" Source="MyApp.exe" KeyPath="yes" />
-  </Component>
-</DirectoryRef>
-             * 
-<Dialog Id="InstallScopeDlg" Width="370" Height="270" Title="[ProductName] Setup">
-  <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Text="Choose Install Scope" />
-
-  <Control Id="ScopeGroup" Type="RadioButtonGroup" X="20" Y="40" Width="330" Height="60" Property="ALLUSERS">
-    <RadioButton Value="1" X="0" Y="0" Width="300" Height="15" Text="Install for all users (requires admin)" />
-    <RadioButton Value="" X="0" Y="20" Width="300" Height="15" Text="Install for current user only" />
-  </Control>
-
-  <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="Back">
-    <Publish Event="NewDialog" Value="WelcomeDlg">1</Publish>
-  </Control>
-
-  <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Text="Next">
-    <Publish Event="NewDialog" Value="InstallDirDlg">1</Publish>
-  </Control>
-
-  <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Text="Cancel">
-    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-  </Control>
-</Dialog><Dialog Id="InstallScopeDlg" Width="370" Height="270" Title="[ProductName] Setup">
-  <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Text="Choose Install Scope" />
-
-  <Control Id="ScopeGroup" Type="RadioButtonGroup" X="20" Y="40" Width="330" Height="60" Property="ALLUSERS">
-    <RadioButton Value="1" X="0" Y="0" Width="300" Height="15" Text="Install for all users (requires admin)" />
-    <RadioButton Value="" X="0" Y="20" Width="300" Height="15" Text="Install for current user only" />
-  </Control>
-
-  <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="Back">
-    <Publish Event="NewDialog" Value="WelcomeDlg">1</Publish>
-  </Control>
-
-  <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Text="Next">
-    <Publish Event="NewDialog" Value="InstallDirDlg">1</Publish>
-  </Control>
-
-  <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Text="Cancel">
-    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-  </Control>
-</Dialog>
-             * 
-<UI>
-  <DialogRef Id="InstallScopeDlg" />
-  <DialogRef Id="WelcomeDlg" />
-  <DialogRef Id="InstallDirDlg" />
-  <DialogRef Id="VerifyReadyDlg" />
-  <DialogRef Id="ProgressDlg" />
-  <DialogRef Id="ExitDlg" />
-
-  <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallScopeDlg">1</Publish>
-  <Publish Dialog="InstallScopeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">1</Publish>
-</UI>
-             * 
-         
-             */
-
-
-            // UI References
-            /*
-            oWxsBuilder.AppendLine("    <UI>");
-            oWxsBuilder.AppendLine("      <UIRef Id='WixUI_License' />");
-            oWxsBuilder.AppendLine("      <UIRef Id='WixUI_InstallDir' />");
-            oWxsBuilder.AppendLine("      <DialogRef Id=\"CustomInstallScopeDialog\" />");
-            oWxsBuilder.AppendLine("      <Publish Dialog=\"VerifyReadyDlg\" Control=\"Back\" Event=\"NewDialog\" Value=\"CustomInstallScopeDialog\">1</Publish>");
-            oWxsBuilder.AppendLine("      <UIRef Id='WixUI_ErrorProgressText' />");
-            oWxsBuilder.AppendLine("    </UI>");
-             */
-
-            // License File
-            oWxsBuilder.AppendLine("    <WixVariable Id='WixUILicenseRtf' Value='" + licenseFilePath + "' />");
-
-            // Feature Definition
-            oWxsBuilder.AppendLine("    <Feature Id='DefaultFeature' Title='Main Feature' Level='1'>");
-            oWxsBuilder.AppendLine("      <ComponentGroupRef Id='FilesGroup' />");
-            oWxsBuilder.AppendLine("      <ComponentGroupRef Id='ShortcutsGroup' />");
-            oWxsBuilder.AppendLine("    </Feature>");
-
-            oWxsBuilder.AppendLine("  </Product>");
-
-            // Directory Definition
-            oWxsBuilder.AppendLine("  <Fragment>");
-            oWxsBuilder.AppendLine("    <Directory Id='TARGETDIR' Name='SourceDir'>");
-            oWxsBuilder.AppendLine("      <Directory Id='ProgramFilesFolder'>");
-            oWxsBuilder.AppendLine("        <Directory Id='INSTALLFOLDER' Name='" + applicationName + "' />");
-            oWxsBuilder.AppendLine("      </Directory>");
-            oWxsBuilder.AppendLine("      <Directory Id='ProgramMenuFolder'>");
-            oWxsBuilder.AppendLine("        <Directory Id='ProgramMenuSubFolder' Name='" + applicationName + "' />");
-            oWxsBuilder.AppendLine("      </Directory>");
-            oWxsBuilder.AppendLine("      <Directory Id='DesktopFolder' />");
-            oWxsBuilder.AppendLine("    </Directory>");
-            oWxsBuilder.AppendLine("  </Fragment>");
-
-            // Add application files
-            oWxsBuilder.AppendLine("  <Fragment>");
-            oWxsBuilder.AppendLine("    <ComponentGroup Id='FilesGroup' Directory='INSTALLFOLDER'>");
-            foreach (var strFullFilePath in Directory.GetFiles(releaseDir, "*.*", SearchOption.AllDirectories))
+            foreach (DirectoryInfo di in new DirectoryInfo(strDirectory).GetDirectories())
             {
-                string strRelativePath = strFullFilePath.Substring(releaseDir.Length).TrimStart('\\');
-                oWxsBuilder.AppendLine("      <Component Id='File_" + 
-                    (strRelativePath.Replace("\\","__").Replace(".","_")) + "' Guid='*'>");
-                oWxsBuilder.AppendLine("        <File Source='" + strFullFilePath + "' KeyPath='yes' />");
-                oWxsBuilder.AppendLine("      </Component>");
+                foreach (string str in CollectFiles(di.FullName, strSubdiectory != null ? strSubdiectory + "\\" + di.Name : di.Name))
+                    yield return str;
             }
-            oWxsBuilder.AppendLine("    </ComponentGroup>");
-            oWxsBuilder.AppendLine("  </Fragment>");
+        }
 
-            // Add shortcuts
-            oWxsBuilder.AppendLine("  <Fragment>");
-            oWxsBuilder.AppendLine("    <ComponentGroup Id='ShortcutsGroup'>");
-            var oExeFiles = Directory.GetFiles(releaseDir, "*.exe", SearchOption.TopDirectoryOnly);
-            foreach (var strExeFile in oExeFiles)
+        //===================================================================================================
+        /// <summary>
+        /// Formats a subpath to an ID
+        /// </summary>
+        /// <param name="strPath">Path relative to project folder</param>
+        /// <returns>Stripped and modified path</returns>
+        //===================================================================================================
+        static string MakeIdFromFile(string strPath)
+        {
+            return strPath.Replace("\\", "_").Replace(" ", "").Replace(".","_").Replace("-","");
+        }
+
+        static void GenerateWxsFileContent(string strWxsPath, string strReleaseDir, string licenseFilePath, string strAppName, string companyName, string upgradeCodeGuid, string strStartupProjectName)
+        {
+            var oNameSpaces = new XmlNamespaceManager(new NameTable());
+            oNameSpaces.AddNamespace("w", "http://wixtoolset.org/schemas/v4/wxs");
+
+            XDocument oWxs = XDocument.Load(strWxsPath);
+            string strOriginalDocument = oWxs.Root.ToString();
+            
+            foreach (string strFile in CollectFiles(strReleaseDir, null))
             {
-                string strExeName = Path.GetFileNameWithoutExtension(strExeFile);
-                string strShortcutName = SplitCamelCase(strExeName);
-                oWxsBuilder.AppendLine("      <Component Id='Shortcut_" + strExeName + "' Guid='*'>");
-                oWxsBuilder.AppendLine("        <Shortcut Id='StartMenuShortcut_" + strExeName + "' Name='" + strShortcutName + "' Target='[INSTALLFOLDER]" + Path.GetFileName(strExeFile) + "' />");
-                oWxsBuilder.AppendLine("        <RegistryValue Root='HKCU' Key='Software\\"+companyName+"\\" + applicationName + "' Name='Shortcut_" + strExeName + "' Type='string' Value='yes' KeyPath='yes' />");
-                oWxsBuilder.AppendLine("      </Component>");
+                string strId = MakeIdFromFile(strFile).Replace(strAppName+"_resources_dll","resources_dll");
+                XElement oElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']/w:Component/w:File[@Source='$(var.CreateMsiFromFolder.TargetDir)" + strFile + "']", oNameSpaces);
+                if (oElement != null)
+                {
+                    if (oElement.Attribute("Id") == null)
+                        oElement.SetAttributeValue("Id", strId);
+                    //oElement.SetAttributeValue("Source", "$(var.CreateMsiFromFolder.TargetDir)" + strFile);
+                } else
+                {
+                    string strDir = strFile.Contains('\\')?strFile.Substring(0, strFile.LastIndexOf("\\")):"";
+                    string strDirId = MakeIdFromFile(string.IsNullOrEmpty(strDir)?"_":strDir);
+
+                    XElement oComponentElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']/w:Component[@Id='"+strDirId+"']", oNameSpaces);
+                    if (oComponentElement == null)
+                    {
+                        XElement oDirElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']", oNameSpaces);
+                        if (oDirElement == null)
+                        {
+                            System.Console.WriteLine("'Couldn't find /Wix/Package/DirectoryRef[@Id='INSTALLFOLDER']", oNameSpaces);
+                            return;
+                        }
+
+                        if (!string.IsNullOrEmpty(strDir))
+                        {
+                            oDirElement.Add(
+                                oComponentElement = new XElement(oDirElement.Name.Namespace + "Component",
+                                    new XAttribute("Id", strDirId),
+                                    new XAttribute("Guid", Guid.NewGuid().ToString().ToUpper()),    
+                                    new XAttribute("Subdirectory", strDir)
+                                ));
+                        } else
+                        {
+                            oDirElement.Add(
+                                oComponentElement = new XElement(oDirElement.Name.Namespace + "Component",
+                                    new XAttribute("Id", strDirId),
+                                    new XAttribute("Guid", Guid.NewGuid().ToString().ToUpper())
+                                ));
+
+                        }
+
+                        // Add the component also to feature
+                        XElement oFeatureElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:Feature/w:ComponentRef[Id='"+strDirId+"']",oNameSpaces);
+                        if (oFeatureElement == null)
+                        {
+                            oFeatureElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:Feature",oNameSpaces);
+                            oFeatureElement.Add(
+                                new XElement(oFeatureElement.Name.Namespace + "ComponentRef",
+                                    new XAttribute("Id", strDirId)));
+                        }
+                    }
+
+                    if (strFile.EndsWith(".exe", StringComparison.InvariantCultureIgnoreCase) &&
+                        oComponentElement.XPathSelectElement("w:File[@KeyPath='yes']",oNameSpaces) == null)
+                    {
+                        oComponentElement.Add(
+                            new XElement(oComponentElement.Name.Namespace + "File",
+                                new XAttribute("Id", strId),
+                                new XAttribute("Source", "$(var." + strStartupProjectName.Substring(0, strStartupProjectName.LastIndexOf('.')) + ".TargetDir)" + strFile),
+                                new XAttribute("KeyPath", "yes"),
+                                new XElement(oComponentElement.Name.Namespace + "Shortcut",
+                                    new XAttribute("Id",strId+"_pfx"),
+                                    new XAttribute("Directory", "ApplicationProgramsFolder"),
+                                    new XAttribute("WorkingDirectory", "INSTALLFOLDER")),
+                                new XElement(oComponentElement.Name.Namespace + "Shortcut",
+                                    new XAttribute("Id", strId + "_2_pfx"),
+                                    new XAttribute("Directory", "CommonDesktopFolder"),
+                                    new XAttribute("WorkingDirectory", "INSTALLFOLDER"))
+                            ));
+                        if (oComponentElement.XPathSelectElement("RemoveFolder", oNameSpaces)==null)
+                        {
+                            oComponentElement.Add(
+                                new XElement("RemoveFolder",
+                                    new XAttribute("Id", strDirId+"_Remove"),
+                                    new XAttribute("Directory","ApplicationProgramsFolder"),
+                                    new XAttribute("On","uninstall")
+                                ));
+                        }
+                    } else
+                    {
+                        oComponentElement.Add(
+                            new XElement(oComponentElement.Name.Namespace + "File",
+                                new XAttribute("Id", strId),
+                                new XAttribute("Source", "$(var." + strStartupProjectName.Substring(0, strStartupProjectName.LastIndexOf('.')) + ".TargetDir)" + strFile)
+                            ));
+                    }
+                }
             }
-            oWxsBuilder.AppendLine("    </ComponentGroup>");
-            oWxsBuilder.AppendLine("  </Fragment>");
 
-            oWxsBuilder.AppendLine("<Fragment>");
-            oWxsBuilder.AppendLine("    <UI>");
-            oWxsBuilder.AppendLine("      <!-- Custom Install Scope Dialog -->");
-            oWxsBuilder.AppendLine("      <Dialog Id=\"CustomInstallScopeDialog\" Width=\"370\" Height=\"270\" Title=\"[ProductName] Setup\">");
-            oWxsBuilder.AppendLine("        <Control Id=\"Description\" Type=\"Text\" X=\"20\" Y=\"20\" Width=\"330\" Height=\"40\" Transparent=\"yes\" NoPrefix=\"yes\">");
-            oWxsBuilder.AppendLine("          <Text>Select the installation type:</Text>");
-            oWxsBuilder.AppendLine("        </Control>");
-            oWxsBuilder.AppendLine("        <Control Id=\"PerMachine\" Type=\"RadioButtonGroup\" X=\"20\" Y=\"60\" Width=\"330\" Height=\"40\">");
-            oWxsBuilder.AppendLine("          <RadioButtonGroup Property=\"ALLUSERS\">");
-            oWxsBuilder.AppendLine("            <RadioButton Value=\"1\" X=\"0\" Y=\"0\" Width=\"300\" Height=\"17\" Text=\"Install for all users (requires admin privileges)\" />");
-            oWxsBuilder.AppendLine("            <RadioButton Value=\"0\" X=\"0\" Y=\"20\" Width=\"300\" Height=\"17\" Text=\"Install for only me (current user)\" />");
-            oWxsBuilder.AppendLine("          </RadioButtonGroup>");
-            oWxsBuilder.AppendLine("        </Control>");
-            oWxsBuilder.AppendLine("        <Control Id=\"Next\" Type=\"PushButton\" X=\"236\" Y=\"243\" Width=\"60\" Height=\"17\" Default=\"yes\" Cancel=\"yes\" Text=\"Next\">");
-            oWxsBuilder.AppendLine("          <Publish Event=\"EndDialog\" Value=\"Return\">1</Publish>");
-            oWxsBuilder.AppendLine("        </Control>");
-            oWxsBuilder.AppendLine("        <Control Id=\"Cancel\" Type=\"PushButton\" X=\"304\" Y=\"243\" Width=\"60\" Height=\"17\" Cancel=\"yes\" Text=\"Cancel\">");
-            oWxsBuilder.AppendLine("          <Publish Event=\"EndDialog\" Value=\"Exit\">1</Publish>");
-            oWxsBuilder.AppendLine("        </Control>");
-            oWxsBuilder.AppendLine("      </Dialog>");
-            oWxsBuilder.AppendLine("    </UI>");
-            oWxsBuilder.AppendLine("  </Fragment>");
-
-            oWxsBuilder.AppendLine("</Wix>");
-            return oWxsBuilder.ToString();
+            string strModifiedDocument = oWxs.Root.ToString();
+            if (!strModifiedDocument.Equals(strOriginalDocument))
+            {
+                File.WriteAllText(strWxsPath, strModifiedDocument, System.Text.Encoding.UTF8);
+            }
         }
 
         //===================================================================================================

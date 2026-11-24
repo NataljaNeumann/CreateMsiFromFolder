@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+
+	<Package Name="CreateMsiFromFolder"
+		     Language="1033"
+		     Version="1.0.0.0"
+		     Manufacturer="CreateMsiFromFolder"
+		     UpgradeCode="B0C7BFBE-4F66-4C6D-B6A4-3A77A7A8F5A2"
+		     Scope="perMachine">
+
+		
+		<MajorUpgrade DowngradeErrorMessage=
+					  "A newer version of CreateMsiFromFolder has already been installed." />
+
+		<MediaTemplate EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="CreateMsiFromFolder" />
+			</Directory>
+			<Directory Id="CommonProgramsFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="CreateMsiFromFolder" />
+			</Directory>
+			<Directory Id="CommonDesktopFolder" />			
+		</Directory>
+
+		<WixVariable Id="WixUILicenseRtf"
+					 Value="$(var.CreateMsiFromFolder.TargetDir)license.rtf" />
+
+		<ui:WixUI Id="WixUI_InstallDir"
+				  InstallDirectory="INSTALLFOLDER" />
+
+	
+
+		<DirectoryRef Id="INSTALLFOLDER">
+			<Component Id="MainExecutableComponent"
+			           Guid="D2D1AA35-6A38-43C9-B53F-E6FBA5D9C292">
+				<File Id="MainExecutable"
+				      Source="$(var.CreateMsiFromFolder.TargetPath)"
+				      KeyPath="yes" >
+
+					<Shortcut Id="StartMenuShortcut"
+							  Directory="ApplicationProgramsFolder"
+							  Name="CreateMsiFromFolder"
+							  WorkingDirectory="INSTALLFOLDER" />
+					<Shortcut Id="DesktopShortcut"
+							  Directory="CommonDesktopFolder"
+							  Name="CreateMsiFromFolder"
+							  WorkingDirectory="INSTALLFOLDER" />
+				</File>
+
+				<RemoveFolder Id="RemoveStartMenuFolder"
+					Directory="ApplicationProgramsFolder"
+					On="uninstall" />
+				
+				<Environment Id="AddInstallFolderToPath"
+							 Name="PATH"
+							 Value="[INSTALLFOLDER]"
+							 Action="set"
+							 Part="last"
+							 System="yes"
+							 Permanent="no" />
+			</Component>
+
+			<Component Id="LicenseComponent"
+			           Guid="A6D8F3DE-3C2A-4C70-9A2D-1C4E3D1A8B5F">
+				<File Id="LicenseFile"
+				      Source="$(var.CreateMsiFromFolder.TargetDir)license.txt"
+				      KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<Feature Id="MainFeature"
+		         Title="CreateMsiFromFolder"
+		         Level="1">
+			<ComponentRef Id="MainExecutableComponent" />
+			<ComponentRef Id="LicenseComponent" />
+		</Feature>
+		
+	</Package>
+</Wix>

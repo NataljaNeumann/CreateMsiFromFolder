@@ -1,7 +1,10 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.11.12402.416
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateMsiFromFolder", "CreateMsiFromFolder\CreateMsiFromFolder.csproj", "{E27A3382-6D29-43C7-8EC1-7093CCDE45E7}"
+EndProject
+Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "CreateMsiFromFolder.Setup", "CreateMsiFromFolder.Setup\CreateMsiFromFolder.Setup.wixproj", "{A9F2B1B6-2FC5-4A9A-BB53-C8A3B29E5A73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +16,15 @@ Global
 		{E27A3382-6D29-43C7-8EC1-7093CCDE45E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E27A3382-6D29-43C7-8EC1-7093CCDE45E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E27A3382-6D29-43C7-8EC1-7093CCDE45E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9F2B1B6-2FC5-4A9A-BB53-C8A3B29E5A73}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A9F2B1B6-2FC5-4A9A-BB53-C8A3B29E5A73}.Debug|Any CPU.Build.0 = Debug|x86
+		{A9F2B1B6-2FC5-4A9A-BB53-C8A3B29E5A73}.Release|Any CPU.ActiveCfg = Release|x86
+		{A9F2B1B6-2FC5-4A9A-BB53-C8A3B29E5A73}.Release|Any CPU.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1877A93-CAB4-4ABC-BC4B-2B038C5F304A}
 	EndGlobalSection
 EndGlobal
