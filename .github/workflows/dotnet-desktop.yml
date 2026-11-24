@@ -242,17 +242,7 @@ jobs:
             throw "The WiX build did not produce an MSI."
           }
 
-          $installer = New-Object -ComObject WindowsInstaller.Installer
-          $database = $installer.OpenDatabase($msi.FullName, 0)
-          $view = $database.OpenView("SELECT Value FROM Property WHERE Property='ProductVersion'")
-          $view.Execute()
-          $record = $view.Fetch()
-          if (-not $record) {
-            throw "Could not read ProductVersion from $($msi.Name)."
-          }
-
-          $version = $record.StringData(1)
-          Rename-Item -LiteralPath $msi.FullName -NewName "${{ env.APP_NAME }}-v$version.msi"
+          Rename-Item -LiteralPath $msi.FullName -NewName "${{ env.APP_NAME }}_v{{ steps.increment.outputs.version }}.msi"
           cd $env:GITHUB_WORKSPACE
 
       - name: Pack the release with signed EXE
@@ -264,6 +254,15 @@ jobs:
           cd $env:GITHUB_WORKSPACE
           #cd ../../../..
 
+      - name: Download PFX file from secrets a second time
+        run: |
+          $pfxBytes = [System.Convert]::FromBase64String("${{ secrets.PFX_FILE }}")
+          [System.IO.File]::WriteAllBytes("${{ env.APP_NAME }}/MyCert.pfx", $pfxBytes)
+
+      - name: Sign MSI with PFX
+        run: |
+          & signtool.exe sign /f ${{ env.APP_NAME }}/MyCert.pfx /p ${{ secrets.PFX_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 ${{ env.APP_NAME }}.Setup/bin/x86/Release/${{ env.APP_NAME }}_v${{ steps.increment.outputs.version }}.msi
+          Remove-Item -Force -Verbose -ErrorAction SilentlyContinue "${{ env.APP_NAME }}/MyCert.pfx"
        
       # certificate creation in powershell:
       # "C:\Program Files\Git\usr\bin\openssl.exe" req -x509 -newkey rsa:4096 -keyout MeinSchluessel.key -out MeinZertifikat.crt -days 1825 -nodes -subj "/CN=..."
