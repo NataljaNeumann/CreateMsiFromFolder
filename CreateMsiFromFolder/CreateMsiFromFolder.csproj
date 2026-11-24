@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>CreateMsiFromFolder.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -70,6 +73,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="CreateMsiFromFolder.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -79,21 +85,21 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(SolutionDir)LICENSE.TXT" "$(TargetDir)ZZ_SOURCE_CODE_ZZ\"
+    <PostBuildEvent>if NOT EXIST "$(TargetDir)ZZ_SOURCE_CODE_ZZ" (
+	mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ"
+	mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\.github\"
+	mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\.github\workflows\"
+	mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\$(ProjectName)\"
+	mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\$(ProjectName)\Properties\"
+	mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\$(ProjectName).Setup\"
+)
+copy /Y "$(SolutionDir)LICENSE.TXT" "$(TargetDir)ZZ_SOURCE_CODE_ZZ\"
+copy /Y "$(SolutionDir)LICENSE.TXT" "$(TargetDir)license.txt"
 if "$(ConfigurationName)" == "Release" (
 	if exist "$(ProjectDir)*.snk" del /f /q "$(ProjectDir)*.snk"
 	if exist "$(ProjectDir)*.pfx" del /f /q "$(ProjectDir)*.pfx"
-	if NOT EXIST "$(TargetDir)ZZ_SOURCE_CODE_ZZ" (
-		mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ"
-		mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\.github\"
-		mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\.github\workflows\"
-		mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\$(ProjectName)\"
-		mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\$(ProjectName)\Properties\"
-		mkdir  "$(TargetDir)ZZ_SOURCE_CODE_ZZ\$(ProjectName).Setup\"
-	)
 
 	copy /Y "$(SolutionDir)*.sln" "$(TargetDir)ZZ_SOURCE_CODE_ZZ\"
-	copy /Y "$(SolutionDir)LICENSE.TXT" "$(TargetDir)license.txt"
 	copy /Y "$(SolutionDir)README.md" "$(TargetDir)ZZ_SOURCE_CODE_ZZ\"
 	copy /Y "$(ProjectDir)*.csproj" "$(TargetDir)ZZ_SOURCE_CODE_ZZ\$(ProjectName)\"
 	copy /Y "$(SolutionDir).gitignore" "$(TargetDir)ZZ_SOURCE_CODE_ZZ\"
