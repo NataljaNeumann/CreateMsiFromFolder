@@ -536,7 +536,7 @@ jobs:
 
         # Threat: This action publishes a release. If secrets are misconfigured, it may expose sensitive info.
         # Useful parameters: 'body_path' to load release notes from a file, 'target_commitish' to specify commit.
-      - name: Upload release asset(s) (all bin/*v<version>.zip)
+      - name: Upload release asset(s) (all bin/*v<version>.zip, *.msi)
         if: steps.check_release.outputs.release_exists == 'false'
         shell: pwsh
         env:
@@ -567,7 +567,7 @@ jobs:
           $pattern = Join-Path -Path $app -ChildPath "bin/*v$version.zip"
           Write-Host "Searching for files matching: $pattern"
 
-          $pattern2 = Join-Path -Path $app -ChildPath "bin/*v$version.msi"
+          $pattern2 = Join-Path -Path "${app}.Setup" -ChildPath "bin/x86/Release/*v$version.msi"
           Write-Host "Searching for files matching: $pattern2"
 
           $files = Get-ChildItem -Path $pattern -File -ErrorAction SilentlyContinue
