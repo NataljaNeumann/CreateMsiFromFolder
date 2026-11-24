@@ -242,7 +242,7 @@ jobs:
             throw "The WiX build did not produce an MSI."
           }
 
-          Rename-Item -LiteralPath $msi.FullName -NewName "${{ env.APP_NAME }}_v{{ steps.increment.outputs.version }}.msi"
+          Rename-Item -LiteralPath $msi.FullName -NewName "${{ env.APP_NAME }}_v${{ steps.increment.outputs.version }}.msi"
           cd $env:GITHUB_WORKSPACE
 
       - name: Pack the release with signed EXE
@@ -261,7 +261,14 @@ jobs:
 
       - name: Sign MSI with PFX
         run: |
-          & signtool.exe sign /f ${{ env.APP_NAME }}/MyCert.pfx /p ${{ secrets.PFX_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 ${{ env.APP_NAME }}_v${{ steps.increment.outputs.version }}.msi
+          $msi = Get-ChildItem "./" -Filter "*.msi" |
+            Sort-Object LastWriteTime -Descending |
+            Select-Object -First 1
+          if (-not $msi) {
+            throw "The WiX build did not produce an MSI."
+          }
+          & signtool.exe sign /f ${{ env.APP_NAME }}/MyCert.pfx /p ${{ secrets.PFX_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 $msi.FullName
+          Write-Host $msi
           Remove-Item -Force -Verbose -ErrorAction SilentlyContinue "${{ env.APP_NAME }}/MyCert.pfx"
        
       # certificate creation in powershell:
