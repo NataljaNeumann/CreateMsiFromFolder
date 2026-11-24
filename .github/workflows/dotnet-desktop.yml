@@ -261,7 +261,7 @@ jobs:
 
       - name: Sign MSI with PFX
         run: |
-          $msi = Get-ChildItem "./" -Filter "*.msi" |
+          $msi = Get-ChildItem "${{ env.APP_NAME }}.Setup/bin/x86/Release" -Filter "*.msi" |
             Sort-Object LastWriteTime -Descending |
             Select-Object -First 1
           if (-not $msi) {
