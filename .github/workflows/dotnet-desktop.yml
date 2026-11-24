@@ -318,8 +318,6 @@ jobs:
           add: ${{ steps.find_files_to_commit.outputs.files_to_commit }}
           github_token: ${{ secrets.GH_TOKEN }}
 
-
-
       - name: Rename output zip to include version
         shell: pwsh
         run: |
