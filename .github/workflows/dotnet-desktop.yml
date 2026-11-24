@@ -218,6 +218,18 @@ jobs:
             throw "No WiX project was found in $PWD"
           }
 
+          # The application build outputs to bin/Release, while the x86 WiX
+          # project expects its files under bin/x86/Release.
+          $appOutput = Join-Path $env:GITHUB_WORKSPACE "${{ env.APP_NAME }}\bin\Release"
+          $x86Output = Join-Path $env:GITHUB_WORKSPACE "${{ env.APP_NAME }}\bin\x86\Release"
+          if (-not (Test-Path $appOutput)) {
+            throw "Application build output was not found: $appOutput"
+          }
+
+          Remove-Item -Recurse -Force -ErrorAction SilentlyContinue $x86Output
+          New-Item -ItemType Directory -Force -Path $x86Output | Out-Null
+          Copy-Item -Path (Join-Path $appOutput "*") -Destination $x86Output -Recurse -Force
+
           & msbuild $project.FullName /p:Configuration=Release /p:Platform=x86 /p:BuildProjectReferences=false
           if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
