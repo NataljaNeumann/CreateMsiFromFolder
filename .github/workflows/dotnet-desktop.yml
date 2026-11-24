@@ -261,7 +261,7 @@ jobs:
 
       - name: Sign MSI with PFX
         run: |
-          & signtool.exe sign /f ${{ env.APP_NAME }}/MyCert.pfx /p ${{ secrets.PFX_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 ${{ env.APP_NAME }}.Setup/bin/x86/Release/${{ env.APP_NAME }}_v${{ steps.increment.outputs.version }}.msi
+          & signtool.exe sign /f ${{ env.APP_NAME }}/MyCert.pfx /p ${{ secrets.PFX_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 ${{ env.APP_NAME }}_v${{ steps.increment.outputs.version }}.msi
           Remove-Item -Force -Verbose -ErrorAction SilentlyContinue "${{ env.APP_NAME }}/MyCert.pfx"
        
       # certificate creation in powershell:
