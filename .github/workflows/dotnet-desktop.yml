@@ -218,7 +218,7 @@ jobs:
             throw "No WiX project was found in $PWD"
           }
 
-          & msbuild $project.FullName /p:Configuration=Release /p:Platform=x86
+          & msbuild $project.FullName /p:Configuration=Release /p:Platform=x86 /p:BuildProjectReferences=false
           if ($LASTEXITCODE -ne 0) {
             exit $LASTEXITCODE
           }
