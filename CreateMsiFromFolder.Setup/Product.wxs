@@ -13,33 +13,29 @@
       <Directory Id="WindowsMenuFolder" Name="CreateMsiFromFolder" />
     </StandardDirectory>
     <StandardDirectory Id="DesktopFolder" />
-    <WixVariable Id="WixUILicenseRtf" Value="$(var.CreateMsiFromFolder.TargetDir)license.rtf" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.CreateMsiFromFolder.TargetDir).\license.rtf" />
     <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
     <DirectoryRef Id="INSTALLFOLDER">
-      <Component Id="LicenseComponent" Guid="A6D8F3DE-3C2A-4C70-9A2D-1C4E3D1A8B5F">
-        <File Id="LicenseFile" Source="$(var.CreateMsiFromFolder.TargetDir)license.txt" KeyPath="yes" />
-      </Component>
       <Component Id="_" Guid="E94CE521-1170-4BB2-80C3-971822225B6E">
+        <RemoveFolder Id="__Remove" Directory="WindowsMenuFolder" On="uninstall" />
+        <File Id="CreateMsiFromFolder_exe" Source="$(var.CreateMsiFromFolder.TargetDir)CreateMsiFromFolder.exe" KeyPath="yes" />
         <File Id="CreateMsiFromFolder_exe_config" Source="$(var.CreateMsiFromFolder.TargetDir)CreateMsiFromFolder.exe.config" />
         <File Id="license_rtf" Source="$(var.CreateMsiFromFolder.TargetDir)license.rtf" />
-        <File Id="CreateMsiFromFolder_exe" Source="$(var.CreateMsiFromFolder.TargetDir)CreateMsiFromFolder.exe" KeyPath="yes">
-        </File>
+        <File Id="license_txt" Source="$(var.CreateMsiFromFolder.TargetDir)license.txt" />
         <File Id="source_code_tar_zip" Source="$(var.CreateMsiFromFolder.TargetDir)source_code.tar.zip" />
-		<Environment Id="AddInstallFolderToPath" Name="PATH" Value="[INSTALLFOLDER]" Action="set" Part="last" System="yes" Permanent="no" />
-	  </Component>
+      </Component>
     </DirectoryRef>
     <DirectoryRef Id="WindowsMenuFolder">
       <Component Id="WindowsMenuShortcuts" Guid="2845423E-CAE2-492A-BF59-1519B4ED5465">
-        <Shortcut Id="StartMenuShortcut" Directory="WindowsMenuFolder" Name="CreateMsiFromFolder" Target="[INSTALLFOLDER]CreateMsiFromFolder.exe" WorkingDirectory="INSTALLFOLDER" />
-        <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="CreateMsiFromFolder" Target="[INSTALLFOLDER]CreateMsiFromFolder.exe" WorkingDirectory="INSTALLFOLDER" />
         <RemoveFolder Id="RemoveWindowsMenuFolder" Directory="WindowsMenuFolder" On="uninstall" />
-        <RegistryValue Root="HKCU" Key="Software\NataljaNeumann\CreateMsiFromFolder" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
+        <RegistryValue Root="HKCU" Key="Software\NataljaNeumann@gmx.de\CreateMsiFromFolder" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
+        <Shortcut Id="CreateMsiFromFolder_exe_pfx" Directory="WindowsMenuFolder" Name="Create Msi From Folder" Target="[INSTALLFOLDER]CreateMsiFromFolder.exe" WorkingDirectory="INSTALLFOLDER" />
+        <Shortcut Id="CreateMsiFromFolder_exe_2_pfx" Directory="DesktopFolder" Name="Create Msi From Folder" Target="[INSTALLFOLDER]CreateMsiFromFolder.exe" WorkingDirectory="INSTALLFOLDER" />
       </Component>
     </DirectoryRef>
-    <Feature Id="MainFeature" Title="CreateMsiFromFolder" Level="1">
-      <ComponentRef Id="_" />
-      <ComponentRef Id="LicenseComponent" />
+    <Feature Id="CreateMsiFromFolder" Title="CreateMsiFromFolder" Level="1">
       <ComponentRef Id="WindowsMenuShortcuts" />
+      <ComponentRef Id="_" />
     </Feature>
   </Package>
 </Wix>
