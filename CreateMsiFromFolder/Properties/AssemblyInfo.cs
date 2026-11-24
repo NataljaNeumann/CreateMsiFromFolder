@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CreateMsiFromFolder")]
 [assembly: AssemblyDescription("This application helps to create a msi from your release folder")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("NataljaNeumann@gmx.de")]
 [assembly: AssemblyProduct("CreateMsiFromFolder")]
-[assembly: AssemblyCopyright("Copyright ©  2025 NataljaNeumann@gmx.de")]
+[assembly: AssemblyCopyright("Copyright ©  2025-2026 NataljaNeumann@gmx.de")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

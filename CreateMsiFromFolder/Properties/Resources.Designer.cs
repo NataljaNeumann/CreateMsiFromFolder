@@ -61,7 +61,7 @@ namespace CreateMsiFromFolder.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copyright © 2025 .
+        ///   Looks up a localized string similar to Copyright © 2025-2026 .
         /// </summary>
         internal static string CopyrightMessage {
             get {
