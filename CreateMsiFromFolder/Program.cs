@@ -64,19 +64,30 @@ namespace CreateMsiFromFolder
             string strApplicationName = "MyApplication";
             string strCompanyName = "GNU";
             string strVersion = "1.0.0.0";
+            bool bSkipPdb = true;
             string strUpgradeCodeGuid = Guid.NewGuid().ToString().ToUpper();
             bool bVersioning = false;
 
-            // Extract metadata from one of the .NET executables in the release directory
-            var exeFile = Directory.GetFiles(strReleaseDir, "*.exe").FirstOrDefault();
-            if (exeFile == null)
-            {
-                Console.WriteLine("No .exe files found in the release directory.");
-                return;
-            }
 
-            Console.WriteLine("Extracting metadata from: " + exeFile);
-            ExtractMetadata(exeFile, ref strApplicationName, ref strCompanyName, ref strVersion);
+            if (astrArgs.Length == 0)
+            {
+                astrArgs = new string[] { "--license" };
+            }
+            else
+            {
+                if (astrArgs.FirstOrDefault(x => x.Equals("--releasedir")) == null)
+                {
+                    // Extract metadata from one of the .NET executables in the release directory
+                    var exeFile = Directory.GetFiles(strReleaseDir, "*.exe").FirstOrDefault();
+                    if (exeFile == null)
+                    {
+                        Console.WriteLine("No .exe files found in current directory.");
+                        return;
+                    }
+
+                    ExtractMetadata(exeFile, ref strApplicationName, ref strCompanyName, ref strVersion, false);
+                }
+            }
 
             // Parse command line arguments
             for (int i = 0; i < astrArgs.Length; i++)
@@ -118,7 +129,7 @@ namespace CreateMsiFromFolder
                                 return;
                             }
 
-                            ExtractMetadata(strExeFile2, ref strApplicationName, ref strCompanyName, ref strVersion);
+                            ExtractMetadata(strExeFile2, ref strApplicationName, ref strCompanyName, ref strVersion, true);
 
                             if (strStartupProject.Equals(""))
                             {
@@ -136,6 +147,12 @@ namespace CreateMsiFromFolder
                                         Path.GetFileNameWithoutExtension(strStartupProject) + ".Setup.wixproj";
                                 }
                             }
+                        }
+                        break;
+                    case "--skippdb":
+                        if (i+1 < astrArgs.Length)
+                        {
+                            bSkipPdb = "yes".Equals(astrArgs[++i]);
                         }
                         break;
                     case "--outputdir":
@@ -208,6 +225,9 @@ namespace CreateMsiFromFolder
                         System.Console.WriteLine();
                         WriteWrappedText(
                             "CreateMsiFromFolder --releasedir <dir> --outputdir <..\\Template.Setup> --wixproj <template.setup.wixproj> --startupproj <template.csproj> --wxsfile <template.wxs> --licencefile license.rtf --applicationname <ApplicationName>");
+                        System.Console.WriteLine();
+                        WriteWrappedText(
+                            "CreateMsiFromFolder  --releasedir . --outputdir ..\\..\\..\\CreateMsiFromFolder.Setup --wixproj CreateMsiFromFolder.Setup.wixproj --startupproj CreateMsiFromFolder.csproj  --wxsfile Product.wxs --licencefile license.rtf --applicationname CreateMsiFromFolder --skippdb yes");
                         System.Console.ReadKey();
 
                         return;
@@ -270,7 +290,7 @@ namespace CreateMsiFromFolder
                     "\t<MediaTemplate EmbedCab=\"yes\" />\r\n\r\n" +
                     "\t<Directory Id=\"TARGETDIR\" Name=\"SourceDir\">\r\n" +
                     "\t  <Directory Id=\"ProgramFilesFolder\">\r\n" +
-                    "\t\t<Directory Id=\"CompanyFolder\" Name=\""+ strCompanyName + "\">\r\n" +
+                    "\t\t<Directory Id=\"PublisherFolder\" Name=\""+ strCompanyName + "\">\r\n" +
                     "\t\t  <Directory Id=\"INSTALLFOLDER\" Name=\"" + strApplicationName + "\" />\r\n" +
                     "\t\t</Directory>\r\n" +
                     "\t  </Directory>\r\n\r\n" +
@@ -301,7 +321,7 @@ namespace CreateMsiFromFolder
 
 
             // Generate .wxs file content
-            GenerateWxsFileContent(Path.Combine(strOutputDir, strWxsFile), strReleaseDir, strLicenseFileName, strApplicationName, strCompanyName, strUpgradeCodeGuid, strStartupProject);
+            GenerateWxsFileContent(Path.Combine(strOutputDir, strWxsFile), strReleaseDir, strApplicationName, strCompanyName, strStartupProject, bSkipPdb, strVersion);
         }
 
         //===================================================================================================
@@ -523,7 +543,8 @@ namespace CreateMsiFromFolder
             string strExeFile, 
             ref string rstrAppName, 
             ref string rstrCompany, 
-            ref string rstrVersion)
+            ref string rstrVersion,
+            bool bWriteCopyright)
         {
             try
             {
@@ -564,12 +585,14 @@ namespace CreateMsiFromFolder
                 var oCopyrightAttribute = oAssembly.GetCustomAttribute<AssemblyCopyrightAttribute>();
                 if (oCopyrightAttribute != null)
                 {
-                    Console.WriteLine("Copyright: " + oCopyrightAttribute.Copyright);
+                    if (bWriteCopyright)
+                    Console.WriteLine(strExeFile + " Copyright: " + oCopyrightAttribute.Copyright);
                 }
             }
             catch (Exception oEx)
             {
-                Console.WriteLine("Error extracting metadata: " + oEx.Message);
+                Console.WriteLine("Error extracting metadata from "+
+                    strExeFile + ": " + oEx.Message);
             }
         }
 
@@ -605,16 +628,24 @@ namespace CreateMsiFromFolder
             return strPath.Replace("\\", "_").Replace(" ", "").Replace(".","_").Replace("-","");
         }
 
-        static void GenerateWxsFileContent(string strWxsPath, string strReleaseDir, string licenseFilePath, string strAppName, string companyName, string upgradeCodeGuid, string strStartupProjectName)
+        static void GenerateWxsFileContent(string strWxsPath, string strReleaseDir, string strAppName, string strCompanyName, string strStartupProjectName, bool bSkipPdb, string strVersion)
         {
             var oNameSpaces = new XmlNamespaceManager(new NameTable());
             oNameSpaces.AddNamespace("w", "http://wixtoolset.org/schemas/v4/wxs");
 
             XDocument oWxs = XDocument.Load(strWxsPath);
             string strOriginalDocument = oWxs.Root.ToString();
-            
+
+            oWxs.XPathSelectElement("/w:Wix/w:Package", oNameSpaces).SetAttributeValue("Version", strVersion);
+
             foreach (string strFile in CollectFiles(strReleaseDir, null))
             {
+                // If PDBs shall be skipped, then do this
+                if (strFile.EndsWith(".pdb",StringComparison.InvariantCultureIgnoreCase) && bSkipPdb)
+                {
+                    continue;
+                };
+
                 string strId = MakeIdFromFile(strFile).Replace(strAppName+"_resources_dll","resources_dll");
                 XElement oElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']/w:Component/w:File[@Source='$(var.CreateMsiFromFolder.TargetDir)" + strFile + "']", oNameSpaces);
                 if (oElement != null)
@@ -652,7 +683,6 @@ namespace CreateMsiFromFolder
                                     new XAttribute("Id", strDirId),
                                     new XAttribute("Guid", Guid.NewGuid().ToString().ToUpper())
                                 ));
-
                         }
 
                         // Add the component also to feature
@@ -666,33 +696,41 @@ namespace CreateMsiFromFolder
                         }
                     }
 
-                    if (strFile.EndsWith(".exe", StringComparison.InvariantCultureIgnoreCase) &&
-                        oComponentElement.XPathSelectElement("w:File[@KeyPath='yes']",oNameSpaces) == null)
+                    if (strFile.EndsWith(".exe", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        oComponentElement.Add(
-                            new XElement(oComponentElement.Name.Namespace + "File",
-                                new XAttribute("Id", strId),
-                                new XAttribute("Source", "$(var." + strStartupProjectName.Substring(0, strStartupProjectName.LastIndexOf('.')) + ".TargetDir)" + strFile),
-                                new XAttribute("KeyPath", "yes"),
-                                new XElement(oComponentElement.Name.Namespace + "Shortcut",
-                                    new XAttribute("Id",strId+"_pfx"),
-                                    new XAttribute("Directory", "ApplicationProgramsFolder"),
-                                    new XAttribute("WorkingDirectory", "INSTALLFOLDER")),
-                                new XElement(oComponentElement.Name.Namespace + "Shortcut",
-                                    new XAttribute("Id", strId + "_2_pfx"),
-                                    new XAttribute("Directory", "CommonDesktopFolder"),
-                                    new XAttribute("WorkingDirectory", "INSTALLFOLDER"))
-                            ));
-                        if (oComponentElement.XPathSelectElement("RemoveFolder", oNameSpaces)==null)
+                        XElement oFileElement =
+                        new XElement(oComponentElement.Name.Namespace + "File",
+                            new XAttribute("Id", strId),
+                            new XAttribute("Source", "$(var." + strStartupProjectName.Substring(0, strStartupProjectName.LastIndexOf('.')) + ".TargetDir)" + strFile),
+                            new XElement(oComponentElement.Name.Namespace + "Shortcut",
+                                new XAttribute("Id", strId + "_pfx"),
+                                new XAttribute("Directory", "ApplicationProgramsFolder"),
+                                new XAttribute("WorkingDirectory", "INSTALLFOLDER"),
+                                new XAttribute("Name", strFile.Substring(strFile.LastIndexOf('\\')+1).Replace(".exe", ""))),
+                            new XElement(oComponentElement.Name.Namespace + "Shortcut",
+                                new XAttribute("Id", strId + "_2_pfx"),
+                                new XAttribute("Directory", "CommonDesktopFolder"),
+                                new XAttribute("WorkingDirectory", "INSTALLFOLDER"),
+                                new XAttribute("Name", strFile.Substring(strFile.LastIndexOf('\\')+1).Replace(".exe", "")))
+                        );
+                        if (oComponentElement.XPathSelectElement("w:File[@KeyPath='yes']", oNameSpaces) == null)
                         {
-                            oComponentElement.Add(
-                                new XElement("RemoveFolder",
-                                    new XAttribute("Id", strDirId+"_Remove"),
-                                    new XAttribute("Directory","ApplicationProgramsFolder"),
-                                    new XAttribute("On","uninstall")
-                                ));
+
+                            oFileElement.Add(new XAttribute("KeyPath", "yes"));
+
+                            if (oComponentElement.XPathSelectElement("RemoveFolder", oNameSpaces) == null)
+                            {
+                                oComponentElement.Add(
+                                    new XElement(oComponentElement.Name.Namespace + "RemoveFolder",
+                                        new XAttribute("Id", strDirId + "_Remove"),
+                                        new XAttribute("Directory", "ApplicationProgramsFolder"),
+                                        new XAttribute("On", "uninstall")
+                                    ));
+                            }
                         }
-                    } else
+                        oComponentElement.Add(oFileElement);
+                    }
+                    else
                     {
                         oComponentElement.Add(
                             new XElement(oComponentElement.Name.Namespace + "File",
