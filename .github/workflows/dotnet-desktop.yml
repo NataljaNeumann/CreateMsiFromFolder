@@ -572,7 +572,7 @@ jobs:
 
           $files = Get-ChildItem -Path $pattern -File -ErrorAction SilentlyContinue
           $files2 = Get-ChildItem -Path $pattern -File -ErrorAction SilentlyContinue
-          if ((-not $files -or $files.Count -eq 0)and
+          if ((-not $files -or $files.Count -eq 0) -and
               (-not $files2 -or $files2.Count -eq 0)){
             Write-Host "No files found to upload to release for patterns: $pattern $pattern2"
             exit 0
