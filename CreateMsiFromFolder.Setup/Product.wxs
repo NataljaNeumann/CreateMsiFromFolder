@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="CreateMsiFromFolder" Language="1033" Version="1.0.10.0" Manufacturer="NataljaNeumann@gmx.de" UpgradeCode="B0C7BFBE-4F66-4C6D-B6A4-3A77A7A8F5A2" Scope="perMachine">
+  <Package Name="CreateMsiFromFolder" Language="1033" Version="1.0.11.0" Manufacturer="NataljaNeumann@gmx.de" UpgradeCode="B0C7BFBE-4F66-4C6D-B6A4-3A77A7A8F5A2" Scope="perMachine">
     <MajorUpgrade DowngradeErrorMessage="A newer version of CreateMsiFromFolder has already been installed." />
     <MediaTemplate EmbedCab="yes" />
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -40,4 +40,5 @@
     </Feature>
   </Package>
 </Wix>
+
 
