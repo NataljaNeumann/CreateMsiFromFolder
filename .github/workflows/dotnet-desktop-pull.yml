@@ -24,7 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-name: Build .NET Desktop on Pull Request
+name: Build .NET Desktop on Pull Request .Net4.8
 
 env:
   APP_NAME: CreateMsiFromFolder
