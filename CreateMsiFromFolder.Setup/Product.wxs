@@ -23,7 +23,8 @@
         <File Id="license_rtf" Source="$(var.CreateMsiFromFolder.TargetDir)license.rtf" />
         <File Id="license_txt" Source="$(var.CreateMsiFromFolder.TargetDir)license.txt" />
         <File Id="source_code_tar_zip" Source="$(var.CreateMsiFromFolder.TargetDir)source_code.tar.zip" />
-      </Component>
+		<Environment Id="AddInstallFolderToPath" Name="PATH" Value="[INSTALLFOLDER]" Action="set" Part="last" System="yes" Permanent="no" />
+	  </Component>
     </DirectoryRef>
     <DirectoryRef Id="WindowsMenuFolder">
       <Component Id="WindowsMenuShortcuts" Guid="2845423E-CAE2-492A-BF59-1519B4ED5465">
