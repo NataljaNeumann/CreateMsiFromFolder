@@ -164,8 +164,6 @@ namespace CreateMsiFromFolder
                         if (i + 1 < astrArgs.Length)
                         {
                             strLicenseFileName = astrArgs[++i];
-                            if (!strLicenseFileName.Contains("\\\\") && !strLicenseFileName.Contains(":"))
-                                strLicenseFileName = Path.Combine(strReleaseDir, strLicenseFileName);
                         }
                         break;
                     case "--applicationname":
@@ -234,9 +232,9 @@ namespace CreateMsiFromFolder
             }
 
             // Validate license file
-            if (!File.Exists(strLicenseFileName))
+            if (!File.Exists(Path.Combine(strReleaseDir, strLicenseFileName)))
             {
-                Console.WriteLine("License file not found at: " + strLicenseFileName);
+                Console.WriteLine("License file not found at: " + Path.Combine(strReleaseDir, strLicenseFileName));
                 return;
             }
 
@@ -245,6 +243,9 @@ namespace CreateMsiFromFolder
 
             if (!File.Exists(Path.Combine(strOutputDir, strWixProjectFile)))
             {
+                WriteWrappedText("Warning: Wix Project file was missing: " + Path.Combine(strOutputDir, strWixProjectFile));
+                WriteWrappedText("Warning: you man need to adapt the solution configurations, so Setup project builds in x86 configuration");
+                System.Console.WriteLine();
                 string strWixProjFileContent = @"<Project Sdk=""WixToolset.Sdk/4.0.5"" ToolsVersion=""4.0"">" + Environment.NewLine +
                     "  <PropertyGroup>" +                                                                       Environment.NewLine +
                     "    <OutputType>Package</OutputType>" +                                                    Environment.NewLine +
@@ -295,11 +296,11 @@ namespace CreateMsiFromFolder
                     "\t  </Directory>\r\n\r\n" +
                     "\t</Directory>\r\n\r\n" +
                     "\t<StandardDirectory Id=\"ProgramMenuFolder\">\r\n"+
-                    "\t  <Directory Id=\"WindowsMenuFolder\" Name=\"CreateMsiFromFolder\" />\r\n"+
+                    "\t  <Directory Id=\"WindowsMenuFolder\" Name=\""+ strApplicationName + "\" />\r\n" +
                     "\t</StandardDirectory>\r\n"+
                     "\t<StandardDirectory Id=\"DesktopFolder\" />"+
                     "\t<WixVariable Id=\"WixUILicenseRtf\"\r\n" +
-                    "\t  Value=\"$(var.CreateMsiFromFolder.TargetDir)"+strLicenseFileName+"\" />\r\n" +
+                    "\t  Value=\"$(var."+ strApplicationName + ".TargetDir)"+strLicenseFileName+"\" />\r\n" +
                     "\t<ui:WixUI Id=\"WixUI_InstallDir\"\r\n" +
                     "\t  InstallDirectory=\"INSTALLFOLDER\" />\r\n" +
                     "\t<DirectoryRef Id=\"INSTALLFOLDER\">\r\n" +
@@ -548,46 +549,73 @@ namespace CreateMsiFromFolder
         {
             try
             {
-                var oAssembly = Assembly.LoadFrom(strExeFile);
-
-                // Get Product Name
-                var oProductAttribute = oAssembly.GetCustomAttribute<AssemblyProductAttribute>();
-                if (oProductAttribute != null && !string.IsNullOrEmpty(oProductAttribute.Product))
-                    rstrAppName = oProductAttribute.Product;
-
-                // Get Company Name
-                var oCompanyAttribute = oAssembly.GetCustomAttribute<AssemblyCompanyAttribute>();
-                if (oCompanyAttribute != null && !string.IsNullOrEmpty(oCompanyAttribute.Company))
-                    rstrCompany = oCompanyAttribute.Company;
-
-                // Get Version
-                var oVersionAttribute = oAssembly.GetCustomAttribute<AssemblyVersionAttribute>();
-                if (oVersionAttribute != null && !string.IsNullOrEmpty(oVersionAttribute.Version))
-                    rstrVersion = oVersionAttribute.Version;
-                else
+                try
                 {
-                    Regex oRegex = new Regex(".*Version=([\\.0-9A-Za-z]*).*");
-                    Match oMatch = oRegex.Match(oAssembly.FullName);
-                    if (oMatch.Success)
+                    var oAssembly = Assembly.LoadFrom(strExeFile);
+
+                    // Get Product Name
+                    var oProductAttribute = oAssembly.GetCustomAttribute<AssemblyProductAttribute>();
+                    if (oProductAttribute != null && !string.IsNullOrEmpty(oProductAttribute.Product))
+                        rstrAppName = oProductAttribute.Product;
+
+                    // Get Company Name
+                    var oCompanyAttribute = oAssembly.GetCustomAttribute<AssemblyCompanyAttribute>();
+                    if (oCompanyAttribute != null && !string.IsNullOrEmpty(oCompanyAttribute.Company))
+                        rstrCompany = oCompanyAttribute.Company;
+
+                    // Get Version
+                    var oVersionAttribute = oAssembly.GetCustomAttribute<AssemblyVersionAttribute>();
+                    if (oVersionAttribute != null && !string.IsNullOrEmpty(oVersionAttribute.Version))
+                        rstrVersion = oVersionAttribute.Version;
+                    else
                     {
-                        GroupCollection oGroups = oMatch.Groups;
-                        if (oGroups.Count > 1 && oGroups[1].Success)
+                        Regex oRegex = new Regex(".*Version=([\\.0-9A-Za-z]*).*");
+                        Match oMatch = oRegex.Match(oAssembly.FullName);
+                        if (oMatch.Success)
                         {
-                            Group oGroup = oGroups[1];
-                            rstrVersion = oGroup.Value;
+                            GroupCollection oGroups = oMatch.Groups;
+                            if (oGroups.Count > 1 && oGroups[1].Success)
+                            {
+                                Group oGroup = oGroups[1];
+                                rstrVersion = oGroup.Value;
+                            }
                         }
                     }
+
+
+
+                    // Get Copyright
+                    var oCopyrightAttribute = oAssembly.GetCustomAttribute<AssemblyCopyrightAttribute>();
+                    if (oCopyrightAttribute != null)
+                    {
+                        if (bWriteCopyright)
+                            Console.WriteLine(strExeFile + " Copyright: " + oCopyrightAttribute.Copyright);
+                    }
+
                 }
-
-
-
-                // Get Copyright
-                var oCopyrightAttribute = oAssembly.GetCustomAttribute<AssemblyCopyrightAttribute>();
-                if (oCopyrightAttribute != null)
+                catch (BadImageFormatException oEx)
                 {
-                    if (bWriteCopyright)
-                    Console.WriteLine(strExeFile + " Copyright: " + oCopyrightAttribute.Copyright);
+                    // Native apphosts are not managed assemblies, but may still
+                    // contain Windows version-resource metadata.
+                    FileVersionInfo oFileVersion = FileVersionInfo.GetVersionInfo(strExeFile);
+
+                    if (!string.IsNullOrWhiteSpace(oFileVersion.ProductName))
+                        rstrAppName = oFileVersion.ProductName;
+
+                    if (!string.IsNullOrWhiteSpace(oFileVersion.CompanyName))
+                        rstrCompany = oFileVersion.CompanyName;
+
+                    string strFileVersion = !string.IsNullOrWhiteSpace(oFileVersion.FileVersion)
+                        ? oFileVersion.FileVersion:
+                        oFileVersion.ProductVersion;
+
+                    if (!string.IsNullOrWhiteSpace(strFileVersion))
+                        rstrVersion = strFileVersion;
+
+                    if (bWriteCopyright && !string.IsNullOrWhiteSpace(oFileVersion.LegalCopyright))
+                        Console.WriteLine(strExeFile + " Copyright: " + oFileVersion.LegalCopyright);
                 }
+
             }
             catch (Exception oEx)
             {
@@ -671,7 +699,7 @@ namespace CreateMsiFromFolder
                 };
 
                 string strId = MakeId(strFile).Replace(strAppName+"_resources_dll","resources_dll");
-                XElement oElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']/w:Component/w:File[@Source='$(var.CreateMsiFromFolder.TargetDir)" + strFile + "']", oNameSpaces);
+                XElement oElement = oWxs.XPathSelectElement("/w:Wix/w:Package/w:DirectoryRef[@Id='INSTALLFOLDER']/w:Component/w:File[@Source='$(var."+ strAppName + ".TargetDir)" + strFile + "']", oNameSpaces);
                 if (oElement != null)
                 {
                     if (oElement.Attribute("Id") == null)
@@ -757,6 +785,7 @@ namespace CreateMsiFromFolder
 
                             oFileElement.Add(new XAttribute("KeyPath", "yes"));
 
+                            /*
                             if (oComponentElement.XPathSelectElement("RemoveFolder", oNameSpaces) == null)
                             {
                                 oComponentElement.Add(
@@ -766,6 +795,7 @@ namespace CreateMsiFromFolder
                                         new XAttribute("On", "uninstall")
                                     ));
                             }
+                            */
                         }
                         oComponentElement.Add(oFileElement);
                     }
