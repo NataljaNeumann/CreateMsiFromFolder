@@ -244,7 +244,7 @@ namespace CreateMsiFromFolder
             if (!File.Exists(Path.Combine(strOutputDir, strWixProjectFile)))
             {
                 WriteWrappedText("Warning: Wix Project file was missing: " + Path.Combine(strOutputDir, strWixProjectFile));
-                WriteWrappedText("Warning: you man need to adapt the solution configurations, so Setup project builds in x86 configuration");
+                WriteWrappedText("Warning: you may need to adapt the solution configurations, so Setup project builds in x86 configuration");
                 System.Console.WriteLine();
                 string strWixProjFileContent = @"<Project Sdk=""WixToolset.Sdk/4.0.5"" ToolsVersion=""4.0"">" + Environment.NewLine +
                     "  <PropertyGroup>" +                                                                       Environment.NewLine +
