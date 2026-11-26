@@ -286,7 +286,7 @@ namespace CreateMsiFromFolder
                     "\t\t   Manufacturer=\""+ strCompanyName + "\"\r\n" +
                     "\t\t   UpgradeCode=\""+ strUpgradeCodeGuid +"\"\r\n" +
                     "\t\t   Scope=\"perMachine\">\r\n" +
-                    "\t<MajorUpgrade DowngradeErrorMessage=\"A newer version of "+ strApplicationName + " has already been installed.\" />\r\n" +
+                    "\t<MajorUpgrade DowngradeErrorMessage=\"A newer version of "+ SplitCamelCase(strApplicationName) + " has already been installed.\" />\r\n" +
                     "\t<MediaTemplate EmbedCab=\"yes\" />\r\n\r\n" +
                     "\t<Directory Id=\"TARGETDIR\" Name=\"SourceDir\">\r\n" +
                     "\t  <Directory Id=\"ProgramFilesFolder\">\r\n" +
