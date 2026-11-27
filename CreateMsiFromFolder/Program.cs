@@ -303,15 +303,16 @@ namespace CreateMsiFromFolder
                     "\t  Value=\"$(var."+ strApplicationName + ".TargetDir)"+strLicenseFileName+"\" />\r\n" +
                     "\t<ui:WixUI Id=\"WixUI_InstallDir\"\r\n" +
                     "\t  InstallDirectory=\"INSTALLFOLDER\" />\r\n" +
+                    "\t<!-- Alternative with feature selection: <ui:WixUI Id=\"WixUI_FeatureTree\" /> -->\r\n" +
                     "\t<DirectoryRef Id=\"INSTALLFOLDER\">\r\n" +
                     "\t</DirectoryRef>\r\n\r\n" +
                     "\t<DirectoryRef Id=\"WindowsMenuFolder\">\r\n" +
                     "\t  <Component Id=\"WindowsMenuShortcuts\" Guid=\"" + Guid.NewGuid().ToString().ToUpper()+"\">\r\n"+
                     "\t    <RemoveFolder Id=\"RemoveWindowsMenuFolder\" Directory=\"WindowsMenuFolder\" On=\"uninstall\" />\r\n"+
-                    "\t    <RegistryValue Root=\"HKCU\" Key=\"Software\\"+strCompanyName+"\\"+strApplicationName+"\" Name=\"Installed\" Type=\"integer\" Value=\"1\" KeyPath=\"yes\" />\r\n"+
+                    "\t    <RegistryValue Root=\"HKCU\" Key=\"Software\\"+MakeId(strCompanyName)+"\\"+MakeId(strApplicationName)+"\" Name=\"Installed\" Type=\"integer\" Value=\"1\" KeyPath=\"yes\" />\r\n"+
                     "\t  </Component>\r\n"+
                     "\t</DirectoryRef>\r\n"+
-                    "\t<Feature Id=\""+MakeId(strApplicationName)+"\" Title=\"" + strApplicationName + "\" Level=\"1\">\r\n" +
+                    "\t<Feature Id=\""+MakeId(strApplicationName)+"\" Title=\"" + SplitCamelCase(strApplicationName) + "\" Level=\"1\" AllowAdvertise=\"no\" AllowAbsent=\"no\" ConfigurableDirectory=\"INSTALLFOLDER\">\r\n" +
                     "\t  <ComponentRef Id=\"WindowsMenuShortcuts\" />\r\n" +
                     "\t</Feature>\r\n" +
                     "\t</Package>\r\n" +
