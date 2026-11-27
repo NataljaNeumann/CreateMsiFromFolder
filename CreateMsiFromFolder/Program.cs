@@ -160,6 +160,7 @@ namespace CreateMsiFromFolder
                             strOutputDir = astrArgs[++i];
                         }
                         break;
+                    case "--licensefile":
                     case "--licencefile":
                         if (i + 1 < astrArgs.Length)
                         {
