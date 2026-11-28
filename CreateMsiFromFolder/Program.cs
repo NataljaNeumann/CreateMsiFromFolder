@@ -283,7 +283,7 @@ namespace CreateMsiFromFolder
                     "     xmlns:ui=\"http://wixtoolset.org/schemas/v4/wxs/ui\">\r\n" +
                     "\t<Package Name=\""+strApplicationName+"\"\r\n" +
                     "\t\t   Language=\"1033\"\r\n" +
-                    "\t\t   Version=\"1.0.0.0\"\r\n" +
+                    "\t\t   Version=\""+ strVersion + "\"\r\n" +
                     "\t\t   Manufacturer=\""+ strCompanyName + "\"\r\n" +
                     "\t\t   UpgradeCode=\""+ strUpgradeCodeGuid +"\"\r\n" +
                     "\t\t   Scope=\"perMachine\">\r\n" +
@@ -291,8 +291,8 @@ namespace CreateMsiFromFolder
                     "\t<MediaTemplate EmbedCab=\"yes\" />\r\n\r\n" +
                     "\t<Directory Id=\"TARGETDIR\" Name=\"SourceDir\">\r\n" +
                     "\t  <Directory Id=\"ProgramFilesFolder\">\r\n" +
-                    "\t\t<Directory Id=\"PublisherFolder\" Name=\""+ strCompanyName + "\">\r\n" +
-                    "\t\t  <Directory Id=\"INSTALLFOLDER\" Name=\"" + strApplicationName + "\" />\r\n" +
+                    "\t\t<Directory Id=\"PublisherFolder\" Name=\""+ MakeId(strCompanyName) + "\">\r\n" +
+                    "\t\t  <Directory Id=\"INSTALLFOLDER\" Name=\"" + MakeId(strApplicationName) + "\" />\r\n" +
                     "\t\t</Directory>\r\n" +
                     "\t  </Directory>\r\n\r\n" +
                     "\t</Directory>\r\n\r\n" +
@@ -659,7 +659,12 @@ namespace CreateMsiFromFolder
         //===================================================================================================
         static string MakeId(string strPath)
         {
-            return strPath.Replace("\\", "_").Replace(" ", "").Replace(".","_").Replace("-","");
+            return strPath
+                .Replace("\\", "_")
+                .Replace("/", "_")
+                .Replace(" ", "")
+                .Replace(".","_")
+                .Replace("-","");
         }
 
         //===================================================================================================
